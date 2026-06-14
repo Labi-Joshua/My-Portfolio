@@ -1,0 +1,41 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  tags: string;
+  coverImage: string;
+  coverAlt: string;
+  index: number;
+}
+
+const { slug, title, tags, coverImage, coverAlt, index } = Astro.props;
+---
+
+<a
+  href={`/work/${slug}`}
+  class="group card-hover inline-flex rounded-3xl overflow-hidden h-fit"
+>
+  <!-- Left: text -->
+  <div class="w-[532px] shrink-0 p-10 flex flex-col">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-green inline-block shrink-0"></span>
+      <span class="text-xs text-neutral-500 tracking-wide">Case Study</span>
+    </div>
+    <div class="flex-1 flex flex-col justify-center">
+      <h3 class="font-serif text-[34px] font-normal leading-tight text-neutral-900 whitespace-pre-line">{title}</h3>
+      <p class="text-sm text-neutral-400 mt-2">{tags}</p>
+    </div>
+  </div>
+
+  <!-- Right: 532×532 frame centered in the column -->
+  <div class="shrink-0" style="padding: 12px 12px 12px 0;">
+    <div class="w-[532px] h-[532px] overflow-hidden rounded-2xl">
+      <img
+        src={coverImage}
+        alt={coverAlt}
+        class="w-full h-full object-cover object-top"
+        loading={index === 0 ? 'eager' : 'lazy'}
+      />
+    </div>
+  </div>
+</a>

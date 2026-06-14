@@ -1,0 +1,38 @@
+---
+interface Props {
+  name?: string;
+  headline?: string;
+  contactHref?: string;
+  resumeHref?: string;
+}
+
+const {
+  name = 'Joshua',
+  headline = ', a product designer that builds systems to solve complex problems.',
+  contactHref = 'mailto:hello@joshuaowolabi.com',
+  resumeHref = '/resume.pdf',
+} = Astro.props;
+---
+
+<section class="pt-16 pb-20 px-6 text-center max-w-3xl mx-auto">
+  <h1 class="font-serif text-5xl md:text-[56px] leading-[1.15] tracking-tight text-neutral-900">
+    Hi, I'm <span style="color: #51782B;">{name}</span>{headline}
+  </h1>
+
+  <div class="flex items-center justify-center gap-6 mt-10 flex-wrap">
+    <a
+      href={contactHref}
+      class="bg-green-dark text-white text-sm font-medium rounded-full px-7 py-3 hover:opacity-90 transition-opacity"
+    >
+      Get in touch with me
+    </a>
+    <a
+      href={resumeHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm text-neutral-700 hover:text-neutral-900 transition-colors flex items-center gap-1"
+    >
+      Get my resume <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>

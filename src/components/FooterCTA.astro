@@ -1,0 +1,25 @@
+---
+interface Props {
+  heading?: string;
+  contactHref?: string;
+}
+
+const {
+  heading = 'Take your designs to new dimensions',
+  contactHref = 'mailto:hello@joshuaowolabi.com',
+} = Astro.props;
+---
+
+<section class="mt-16">
+  <div class="max-w-[1100px] mx-auto px-6 pt-0 pb-0 flex items-end justify-between gap-8 flex-wrap">
+    <h2 class="font-serif text-5xl md:text-[52px] leading-[1.1] tracking-tight text-neutral-900 max-w-sm">
+      {heading}
+    </h2>
+    <a
+      href={contactHref}
+      class="bg-green-dark text-white text-sm font-medium rounded-full px-7 py-3.5 hover:opacity-90 transition-opacity shrink-0"
+    >
+      Get in touch with me
+    </a>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+---
+interface Props {
+  category: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  link?: string;
+}
+
+const { category, title, description, image, imageAlt, link } = Astro.props;
+---
+
+<div class="rounded-3xl overflow-hidden flex flex-col group card-hover">
+
+  <!-- Top content -->
+  <div class="px-8 pt-8 pb-6 flex flex-col">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-green inline-block shrink-0"></span>
+      <span class="text-xs text-green tracking-wide font-medium">{category}</span>
+    </div>
+    <h4 class="font-serif text-[34px] font-normal leading-tight text-neutral-900 mt-28">{title}</h4>
+    <p class="text-sm text-neutral-400 mt-2 leading-relaxed">{description}</p>
+  </div>
+
+  <!-- Bottom image -->
+  <div class="mx-3 mb-3 mt-7 rounded-2xl overflow-hidden bg-white h-[214px]">
+    {link ? (
+      <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Open ${title}`}>
+        <img
+          src={image}
+          alt={imageAlt}
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </a>
+    ) : (
+      <img
+        src={image}
+        alt={imageAlt}
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    )}
+  </div>
+
+</div>

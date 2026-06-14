@@ -1,0 +1,231 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { articles, tinyThoughts } from '../data/articles';
+
+const categories = ['Design Systems', 'Craft', 'Accessibility', 'People & Process'];
+const categoryCounts: Record<string, number> = {};
+categories.forEach(cat => {
+  categoryCounts[cat] = articles.filter(a => a.category === cat).length;
+});
+
+const featured = articles.find(a => a.featured)!;
+---
+
+<Layout title="Articles — Joshua Owolabi" description="Thoughts on design systems, craft, accessibility, and the design process.">
+
+  <!-- Hero -->
+  <section class="pt-16 pb-16 px-6 text-center max-w-2xl mx-auto">
+    <span class="inline-block border border-dashed border-neutral-300 bg-neutral-100 rounded-full px-4 py-1 text-xs tracking-wide mb-4" style="color: rgba(0, 0, 0, 0.5);">
+      Articles and field notes
+    </span>
+    <h1 class="font-serif text-5xl md:text-[52px] leading-[1.15] tracking-tight text-neutral-900">
+      My thoughts about Systems,<br />products and life.
+    </h1>
+  </section>
+
+  <div class="max-w-[1100px] mx-auto px-6 pb-0">
+
+    <!-- Category filters -->
+    <div class="flex items-center gap-2 flex-wrap mb-8">
+      <button
+        data-filter="all"
+        class="filter-btn filter-active rounded-full px-4 py-2 text-sm font-medium transition-colors border"
+      >
+        All {articles.length}
+      </button>
+      {categories.map(cat => (
+        <button
+          data-filter={cat}
+          class="filter-btn rounded-full px-4 py-2 text-sm transition-colors border border-neutral-200 text-neutral-400 hover:border-neutral-400 hover:text-neutral-600"
+        >
+          {cat} {categoryCounts[cat]}
+        </button>
+      ))}
+    </div>
+
+    <!-- Most recent articles -->
+    <div id="featured-article" data-category={featured.category} style="margin-bottom: 48px;">
+
+      <!-- Section label -->
+      <div class="flex items-center gap-2 text-sm text-neutral-500 mb-4">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Most recent articles
+      </div>
+
+      <!-- Card -->
+      <div class="card-hover rounded-3xl overflow-hidden flex h-fit">
+        <!-- Left: image -->
+        <div class="shrink-0" style="width: 50%; padding: 12px;">
+          <div style="width: 100%; height: 100%; overflow: hidden; border-radius: 16px;">
+            <img
+              id="featured-img"
+              src={featured.image}
+              alt={featured.imageAlt}
+              class="w-full h-full object-cover object-center"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <!-- Right: content -->
+        <div class="flex-1 p-10 flex flex-col justify-center">
+          <div class="flex items-center gap-2 text-sm text-neutral-400 mb-5">
+            <span id="featured-category">{featured.category}</span>
+            <span class="w-1 h-1 rounded-full bg-neutral-400 inline-block shrink-0"></span>
+            <span id="featured-date">{featured.date}</span>
+          </div>
+          <h2 id="featured-title" class="font-serif leading-tight text-neutral-900 mb-2 max-w-sm" style="font-size: 32px;">
+            {featured.title}
+          </h2>
+          <p id="featured-desc" class="font-sans text-sm text-neutral-500 leading-relaxed mb-8 max-w-[512px]">
+            {featured.description}
+          </p>
+          <a
+            id="featured-link"
+            href={`/articles/${featured.slug}`}
+            class="text-green text-sm font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all group"
+          >
+            Read the article
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-0.5">
+              <path d="M2.5 7h9M7 2.5L11.5 7 7 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Writings -->
+    <section class="mb-16">
+      <div class="flex items-center justify-between py-4 mb-1">
+        <div class="flex items-center gap-2 text-sm text-neutral-600 font-medium">
+          <!-- Pencil icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          All Writings
+        </div>
+        <span class="text-sm text-neutral-400">Newest First</span>
+      </div>
+
+      <div id="articles-list" class="flex flex-col divide-y divide-neutral-100">
+        {articles.map(article => (
+          <a
+            href={`/articles/${article.slug}`}
+            data-category={article.category}
+            class="article-item flex items-center gap-5 py-5 group"
+          >
+            <!-- Thumbnail -->
+            <div class="w-[86px] h-[64px] rounded-xl overflow-hidden shrink-0 bg-neutral-200">
+              <img
+                src={article.image}
+                alt={article.imageAlt}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 min-w-0">
+              <p class="font-serif text-neutral-900 leading-snug" style="font-size: 20px;">
+                {article.title}
+              </p>
+              <p class="text-xs text-neutral-400 leading-relaxed line-clamp-1" style="margin-top: 2px;">
+                {article.description}
+              </p>
+            </div>
+
+            <!-- Meta -->
+            <div class="shrink-0 text-right flex flex-col items-end gap-1.5 min-w-[120px]">
+              <span class="text-xs text-neutral-400">{article.date}</span>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-medium" style="color: #51782B;">{article.category}</span>
+                <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #51782B;"></span>
+                <span class="text-xs font-medium" style="color: #51782B;">{article.readTime} mins</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Empty state (hidden by default) -->
+      <p id="no-results" class="hidden text-sm text-neutral-400 text-center py-12">
+        No articles in this category yet.
+      </p>
+    </section>
+
+    <!-- Tiny Thoughts -->
+    <section>
+      <div class="flex items-baseline justify-between mb-8">
+        <h2 class="font-serif text-[34px] text-neutral-900">Tiny Thoughts</h2>
+        <span class="text-sm text-neutral-400">From my Notebook</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {tinyThoughts.map(thought => (
+          <div class="rounded-2xl p-6 flex flex-col gap-5" style="background-color: rgba(130, 189, 71, 0.10);">
+            <p class="text-xs text-neutral-400">{thought.datetime}</p>
+            <p class="font-serif text-[17px] leading-snug text-neutral-900">{thought.quote}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+
+</Layout>
+
+<script define:vars={{ articles }}>
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const articleItems = document.querySelectorAll('.article-item');
+  const featuredEl = document.querySelector('#featured-article');
+  const noResults = document.querySelector('#no-results');
+
+  function updateFeaturedCard(filter) {
+    const pool = filter === 'all' ? articles : articles.filter(a => a.category === filter);
+    if (!pool.length || !featuredEl) return;
+
+    const article = pool[0];
+    featuredEl.dataset.category = article.category;
+    document.getElementById('featured-img').src = article.image;
+    document.getElementById('featured-img').alt = article.imageAlt;
+    document.getElementById('featured-category').textContent = article.category;
+    document.getElementById('featured-date').textContent = article.date;
+    document.getElementById('featured-title').textContent = article.title;
+    document.getElementById('featured-desc').textContent = article.description;
+    document.getElementById('featured-link').href = `/articles/${article.slug}`;
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? 'all';
+
+      // Swap active styles on buttons
+      filterButtons.forEach(b => {
+        b.classList.remove('filter-active', 'font-medium');
+        b.classList.add('border-neutral-200', 'text-neutral-400');
+      });
+      btn.classList.add('filter-active', 'font-medium');
+      btn.classList.remove('border-neutral-200', 'text-neutral-400');
+
+      // Update featured card content
+      updateFeaturedCard(filter);
+
+      // Show/hide list items
+      let visibleCount = 0;
+      articleItems.forEach(item => {
+        const match = filter === 'all' || item.dataset.category === filter;
+        item.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+
+      // Empty state
+      if (noResults) {
+        noResults.classList.toggle('hidden', visibleCount > 0);
+      }
+    });
+  });
+</script>
