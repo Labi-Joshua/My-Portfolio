@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getArticles, tinyThoughts } from '../data/articles';
+import { getArticles, getTinyThoughts } from '../data/articles';
 
-const articles = await getArticles();
+const [articles, tinyThoughts] = await Promise.all([getArticles(), getTinyThoughts()]);
 const categories = ['Design Systems', 'Craft', 'Accessibility', 'People & Process'];
 const categoryCounts: Record<string, number> = {};
 categories.forEach(cat => {
