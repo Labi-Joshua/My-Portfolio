@@ -1,14 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { articles, tinyThoughts } from '../data/articles';
+import { getArticles, tinyThoughts } from '../data/articles';
 
+const articles = await getArticles();
 const categories = ['Design Systems', 'Craft', 'Accessibility', 'People & Process'];
 const categoryCounts: Record<string, number> = {};
 categories.forEach(cat => {
   categoryCounts[cat] = articles.filter(a => a.category === cat).length;
 });
 
-const featured = articles.find(a => a.featured)!;
+const featured = articles.find(a => a.featured) ?? articles[0];
 ---
 
 <Layout title="Articles — Joshua Owolabi" description="Thoughts on design systems, craft, accessibility, and the design process.">
@@ -44,7 +45,7 @@ const featured = articles.find(a => a.featured)!;
     </div>
 
     <!-- Most recent articles -->
-    <div id="featured-article" data-category={featured.category} style="margin-bottom: 48px;">
+    {featured && <div id="featured-article" data-category={featured.category} style="margin-bottom: 48px;">
 
       <!-- Section label -->
       <div class="flex items-center gap-2 text-sm text-neutral-500 mb-4">
@@ -108,7 +109,7 @@ const featured = articles.find(a => a.featured)!;
         </div>
 
       </div>
-    </div>
+    </div>}
 
     <!-- All Writings -->
     <section class="mb-16">

@@ -1,15 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { caseStudies } from '../../data/projects';
+import { getCaseStudies, type CaseStudy } from '../../data/projects';
 
-export function getStaticPaths() {
-  return caseStudies.map(project => ({
+export async function getStaticPaths() {
+  const caseStudies = await getCaseStudies();
+  return caseStudies.map((project: CaseStudy) => ({
     params: { slug: project.slug },
     props: { project },
   }));
 }
 
-const { project } = Astro.props;
+interface Props { project: CaseStudy }
+const { project } = Astro.props as Props;
 ---
 
 <Layout title={`${project.title.replace('\n', ' ')} — Joshua Owolabi`} description={project.tags}>

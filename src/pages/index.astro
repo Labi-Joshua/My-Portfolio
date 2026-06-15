@@ -3,9 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import ExperimentCard from '../components/ExperimentCard.astro';
-import { caseStudies, experiments } from '../data/projects';
+import { getCaseStudies, getExperiments } from '../data/projects';
 
-const yearRange = `${Math.min(...caseStudies.map(p => parseInt(p.year)))} — ${new Date().getFullYear() + 1}`;
+const [caseStudies, experiments] = await Promise.all([getCaseStudies(), getExperiments()]);
+const years = caseStudies.map(p => parseInt(p.year)).filter(Boolean);
+const yearRange = years.length ? `${Math.min(...years)} — ${new Date().getFullYear() + 1}` : '';
 ---
 
 <Layout title="Labi Joshua — Product Designer">
