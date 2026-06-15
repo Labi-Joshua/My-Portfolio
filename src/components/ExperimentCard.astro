@@ -11,10 +11,10 @@ interface Props {
 const { category, title, description, image, imageAlt, link } = Astro.props;
 ---
 
-<div class="rounded-3xl overflow-hidden flex flex-col group card-hover">
+<div class="rounded-3xl overflow-hidden flex flex-col group card-hover h-full">
 
   <!-- Top content -->
-  <div class="px-8 pt-8 pb-6 flex flex-col">
+  <div class="px-8 pt-8 pb-6 flex flex-col flex-1">
     <div class="flex items-center gap-2">
       <span class="w-2 h-2 rounded-full bg-green inline-block shrink-0"></span>
       <span class="text-xs text-green tracking-wide font-medium">{category}</span>
@@ -30,7 +30,7 @@ const { category, title, description, image, imageAlt, link } = Astro.props;
         <img
           src={image}
           alt={imageAlt}
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover" style="object-position: bottom;"
           loading="lazy"
         />
       </a>
@@ -38,7 +38,7 @@ const { category, title, description, image, imageAlt, link } = Astro.props;
       <img
         src={image}
         alt={imageAlt}
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover" style="object-position: bottom;"
         loading="lazy"
       />
     )}

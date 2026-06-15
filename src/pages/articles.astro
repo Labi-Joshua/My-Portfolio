@@ -129,10 +129,10 @@ const featured = articles.find(a => a.featured)!;
           <a
             href={`/articles/${article.slug}`}
             data-category={article.category}
-            class="article-item flex items-center gap-5 py-5 group"
+            class="article-item flex items-start md:items-center gap-4 md:gap-5 py-5 group"
           >
             <!-- Thumbnail -->
-            <div class="w-[86px] h-[64px] rounded-xl overflow-hidden shrink-0 bg-neutral-200">
+            <div class="w-[80px] h-[96px] md:w-[86px] md:h-[64px] rounded-xl overflow-hidden shrink-0 bg-neutral-200">
               <img
                 src={article.image}
                 alt={article.imageAlt}
@@ -142,17 +142,27 @@ const featured = articles.find(a => a.featured)!;
             </div>
 
             <!-- Content -->
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 flex flex-col">
+
+              <!-- Meta: mobile only (top of content) -->
+              <div class="md:hidden flex items-center gap-1.5 mb-2">
+                <span class="text-xs font-medium" style="color: #51782B;">{article.category}</span>
+                <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #51782B;"></span>
+                <span class="text-xs font-medium" style="color: #51782B;">{article.readTime} mins</span>
+                <span class="text-xs text-neutral-300 mx-0.5">|</span>
+                <span class="text-xs text-neutral-400">{article.date}</span>
+              </div>
+
               <p class="font-serif text-neutral-900 leading-snug" style="font-size: 20px;">
                 {article.title}
               </p>
-              <p class="text-xs text-neutral-400 leading-relaxed line-clamp-1" style="margin-top: 2px;">
+              <p class="text-xs text-neutral-400 leading-relaxed line-clamp-2 md:line-clamp-1" style="margin-top: 2px;">
                 {article.description}
               </p>
             </div>
 
-            <!-- Meta -->
-            <div class="shrink-0 text-right flex flex-col items-end gap-1.5 min-w-[120px]">
+            <!-- Meta: desktop only (separate column) -->
+            <div class="hidden md:flex shrink-0 text-right flex-col items-end gap-1.5 min-w-[120px]">
               <span class="text-xs text-neutral-400">{article.date}</span>
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-medium" style="color: #51782B;">{article.category}</span>
