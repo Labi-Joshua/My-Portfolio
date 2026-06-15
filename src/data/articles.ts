@@ -10,6 +10,7 @@ export interface Article {
   image: string;
   imageAlt: string;
   featured?: boolean;
+  externalUrl?: string;
 }
 
 export interface TinyThought {
@@ -28,7 +29,8 @@ export async function getArticles(): Promise<Article[]> {
       readTime,
       "image": image.asset->url,
       imageAlt,
-      featured
+      featured,
+      externalUrl
     }
   `)
 }

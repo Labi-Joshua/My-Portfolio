@@ -74,7 +74,9 @@ const featured = articles.find(a => a.featured) ?? articles[0];
           </p>
           <a
             id="featured-link"
-            href={`/articles/${featured.slug}`}
+            href={featured.externalUrl ?? `/articles/${featured.slug}`}
+            target={featured.externalUrl ? '_blank' : undefined}
+            rel={featured.externalUrl ? 'noopener noreferrer' : undefined}
             class="text-green text-sm font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all group"
           >
             Read the article
@@ -128,7 +130,9 @@ const featured = articles.find(a => a.featured) ?? articles[0];
       <div id="articles-list" class="flex flex-col divide-y divide-neutral-100">
         {articles.map(article => (
           <a
-            href={`/articles/${article.slug}`}
+            href={article.externalUrl ?? `/articles/${article.slug}`}
+            target={article.externalUrl ? '_blank' : undefined}
+            rel={article.externalUrl ? 'noopener noreferrer' : undefined}
             data-category={article.category}
             class="article-item flex items-start md:items-center gap-4 md:gap-5 py-5 group"
           >
