@@ -134,7 +134,7 @@ const featured = articles.find(a => a.featured) ?? articles[0];
             target={article.externalUrl ? '_blank' : undefined}
             rel={article.externalUrl ? 'noopener noreferrer' : undefined}
             data-category={article.category}
-            class="article-item flex items-start md:items-center gap-4 md:gap-5 py-5 group"
+            class="article-item flex items-start md:items-center gap-4 md:gap-5 py-5 px-3 -mx-3 rounded-2xl group transition-colors hover:bg-neutral-100"
           >
             <!-- Thumbnail -->
             <div class="w-[80px] h-[96px] md:w-[86px] md:h-[64px] rounded-xl overflow-hidden shrink-0 bg-neutral-200">
