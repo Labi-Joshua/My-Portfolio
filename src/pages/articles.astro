@@ -195,19 +195,75 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
         <span class="text-sm text-neutral-400">From my Notebook</span>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tinyThoughts.map(thought => (
-          <div class="rounded-2xl p-6 flex flex-col gap-5" style="background-color: rgba(130, 189, 71, 0.10);">
+      <div id="thoughts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {tinyThoughts.map((thought, i) => (
+          <div
+            class="thought-card rounded-2xl p-6 flex flex-col gap-5"
+            data-index={i}
+            style="background-color: rgba(130, 189, 71, 0.10);"
+          >
             <p class="text-xs text-neutral-400">{thought.datetime}</p>
             <p class="font-serif text-[17px] leading-snug text-neutral-900">{thought.quote}</p>
           </div>
         ))}
       </div>
+
+      {tinyThoughts.length > 6 && (
+        <div class="flex items-center justify-between mt-8">
+          <button
+            id="thoughts-prev"
+            class="text-sm text-neutral-400 hover:text-neutral-900 transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
+            disabled
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M11.5 7h-9M5 2.5L.5 7 5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Newer
+          </button>
+          <span id="thoughts-page" class="text-sm text-neutral-400">Page 1 of {Math.ceil(tinyThoughts.length / 6)}</span>
+          <button
+            id="thoughts-next"
+            class="text-sm text-neutral-400 hover:text-neutral-900 transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
+          >
+            Older
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2.5 7h9M9 2.5L13.5 7 9 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
     </section>
 
   </div>
 
 </Layout>
+
+<script is:inline>
+  (function () {
+    const PER_PAGE = 6;
+    const cards = document.querySelectorAll('.thought-card');
+    const prevBtn = document.getElementById('thoughts-prev');
+    const nextBtn = document.getElementById('thoughts-next');
+    const pageLabel = document.getElementById('thoughts-page');
+    const total = cards.length;
+    const totalPages = Math.ceil(total / PER_PAGE);
+    let page = 0;
+
+    function render() {
+      cards.forEach((card, i) => {
+        card.style.display = (i >= page * PER_PAGE && i < (page + 1) * PER_PAGE) ? '' : 'none';
+      });
+      if (pageLabel) pageLabel.textContent = `Page ${page + 1} of ${totalPages}`;
+      if (prevBtn) prevBtn.disabled = page === 0;
+      if (nextBtn) nextBtn.disabled = page >= totalPages - 1;
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => { page--; render(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { page++; render(); });
+
+    render();
+  })();
+</script>
 
 <script define:vars={{ articles: articlesForScript }} is:inline>
   const filterButtons = document.querySelectorAll('.filter-btn');

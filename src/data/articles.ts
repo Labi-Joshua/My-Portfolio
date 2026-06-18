@@ -51,7 +51,7 @@ export async function getArticles(): Promise<Article[]> {
 
 export async function getTinyThoughts(): Promise<TinyThought[]> {
   const data = await sanityClient.fetch(`
-    *[_type == "tinyThought"] | order(postedAt desc) {
+    *[_type == "tinyThought"] | order(postedAt desc) [0...24] {
       quote,
       postedAt
     }
