@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getArticles, getTinyThoughts } from '../data/articles';
+import { getArticles, getTinyThoughts, formatArticleDate } from '../data/articles';
 
 const [articles, tinyThoughts] = await Promise.all([getArticles(), getTinyThoughts()]);
 const categories = ['Design Systems', 'Craft', 'Accessibility', 'People & Process'];
@@ -10,6 +10,9 @@ categories.forEach(cat => {
 });
 
 const featured = articles.find(a => a.featured) ?? articles[0];
+
+// Pre-format dates for the client-side filter script
+const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.date) }));
 ---
 
 <Layout title="Articles — Joshua Owolabi" description="Thoughts on design systems, craft, accessibility, and the design process.">
@@ -64,7 +67,7 @@ const featured = articles.find(a => a.featured) ?? articles[0];
           <div class="flex items-center gap-2 text-sm text-neutral-400 mb-5">
             <span id="featured-category">{featured.category}</span>
             <span class="w-1 h-1 rounded-full bg-neutral-400 inline-block shrink-0"></span>
-            <span id="featured-date">{featured.date}</span>
+            <span id="featured-date">{formatArticleDate(featured.date)}</span>
           </div>
           <h2 id="featured-title" class="font-serif leading-tight text-neutral-900 mb-2 max-w-sm" style="font-size: 32px;">
             {featured.title}
@@ -155,7 +158,7 @@ const featured = articles.find(a => a.featured) ?? articles[0];
                 <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #51782B;"></span>
                 <span class="text-xs font-medium" style="color: #51782B;">{article.readTime} mins</span>
                 <span class="text-xs text-neutral-300 mx-0.5">|</span>
-                <span class="text-xs text-neutral-400">{article.date}</span>
+                <span class="text-xs text-neutral-400">{formatArticleDate(article.date)}</span>
               </div>
 
               <p class="font-serif text-neutral-900 leading-snug" style="font-size: 20px;">
@@ -168,7 +171,7 @@ const featured = articles.find(a => a.featured) ?? articles[0];
 
             <!-- Meta: desktop only (separate column) -->
             <div class="hidden md:flex shrink-0 text-right flex-col items-end gap-1.5 min-w-[120px]">
-              <span class="text-xs text-neutral-400">{article.date}</span>
+              <span class="text-xs text-neutral-400">{formatArticleDate(article.date)}</span>
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-medium" style="color: #51782B;">{article.category}</span>
                 <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #51782B;"></span>
@@ -206,7 +209,7 @@ const featured = articles.find(a => a.featured) ?? articles[0];
 
 </Layout>
 
-<script define:vars={{ articles }}>
+<script define:vars={{ articles: articlesForScript }} is:inline>
   const filterButtons = document.querySelectorAll('.filter-btn');
   const articleItems = document.querySelectorAll('.article-item');
   const featuredEl = document.querySelector('#featured-article');
