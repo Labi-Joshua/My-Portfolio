@@ -266,6 +266,23 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
     if (nextBtn) nextBtn.addEventListener('click', () => { page++; render(); });
     mq.addEventListener('change', () => { page = 0; render(); });
 
+    // Swipe support
+    const grid = document.getElementById('thoughts-grid');
+    let touchStartX = 0;
+    if (grid) {
+      grid.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      grid.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) < 40) return;
+        const pp = perPage();
+        const totalPages = Math.ceil(total / pp);
+        if (diff > 0 && page < totalPages - 1) { page++; render(); }
+        if (diff < 0 && page > 0) { page--; render(); }
+      }, { passive: true });
+    }
+
     render();
   })();
 </script>
