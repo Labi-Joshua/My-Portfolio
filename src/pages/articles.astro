@@ -100,9 +100,9 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
           />
         </div>
 
-        <!-- Image: tablet and above (left side, responsive) -->
-        <div class="hidden md:block shrink-0 md:order-1" style="width: 50%; padding: 12px;">
-          <div style="width: 100%; height: 100%; overflow: hidden; border-radius: 16px;">
+        <!-- Image: tablet and above (left side, 16:9) -->
+        <div class="hidden md:block shrink-0 md:order-1" style="padding: 12px;">
+          <div style="width: 530px; height: 380px; overflow: hidden; border-radius: 16px;">
             <img
               id="featured-img"
               src={featured.image}
