@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
 >
 
   <!-- Hero -->
-  <section class="pt-16 pb-12 px-6 text-center max-w-2xl mx-auto">
+  <section class="pt-16 pb-16 px-6 text-center max-w-2xl mx-auto" style="margin-bottom: 64px;">
     <span class="inline-block border border-dashed border-neutral-300 bg-neutral-100 rounded-full px-4 py-1 text-xs tracking-wide mb-6" style="color: rgba(0, 0, 0, 0.5);">
       This is me
     </span>
@@ -20,16 +20,16 @@ import Layout from '../layouts/Layout.astro';
   <div class="max-w-[1100px] mx-auto px-6">
 
     <!-- Intro: Photo + Bio -->
-    <section class="grid md:grid-cols-[5fr_7fr] gap-12 mb-16">
-      <div class="rounded-3xl overflow-hidden bg-neutral-200" style="aspect-ratio: 3/4;">
+    <section class="intro-section mb-16">
+      <div class="intro-photo">
         <img
           src="/images/about-profile.jpg"
           alt="Labi Joshua standing in an art gallery"
-          class="w-full h-full object-cover object-center"
+          class="w-full h-full object-cover object-top"
           loading="eager"
         />
       </div>
-      <div class="flex flex-col justify-center gap-5 pl-2">
+      <div class="intro-bio flex flex-col justify-center gap-4">
         <h2 class="font-serif leading-tight text-neutral-900" style="font-size: 40px;">
           <span style="color: #51782B;">Hi!</span> I'm Labi Joshua.
         </h2>
@@ -43,28 +43,26 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <!-- Stats -->
-    <section class="rounded-2xl overflow-hidden mb-16" style="background-color: #F5F5F5;">
-      <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-neutral-200">
-        <div class="px-6 py-6 flex flex-col gap-1.5">
-          <span class="text-xs text-neutral-400">Based in:</span>
-          <span class="font-serif text-2xl" style="color: #51782B;">Lagos, Nigeria</span>
-          <span class="text-xs text-neutral-400 mt-4">UTC+1, Always available.</span>
-        </div>
-        <div class="px-6 py-6 flex flex-col gap-1.5">
-          <span class="text-xs text-neutral-400">Doing this for:</span>
-          <span class="font-serif text-2xl" style="color: #51782B;">3+ years</span>
-          <span class="text-xs text-neutral-400 mt-4">A lifetime of making things with my hands.</span>
-        </div>
-        <div class="px-6 py-6 flex flex-col gap-1.5">
-          <span class="text-xs text-neutral-400">Off the clock:</span>
-          <span class="font-serif text-2xl" style="color: #51782B;">Creative Consumer</span>
-          <span class="text-xs text-neutral-400 mt-4">Obsessed with sitcoms and art history.</span>
-        </div>
+    <section class="stats-section mb-16">
+      <div class="stat-card">
+        <span class="stat-label">Based in:</span>
+        <span class="stat-value">Lagos, Nigeria</span>
+        <span class="stat-sub">UTC+1, Always available.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Doing this for:</span>
+        <span class="stat-value">3+ years</span>
+        <span class="stat-sub">A lifetime of making things with my hands.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Off the clock:</span>
+        <span class="stat-value">Creative Consumer</span>
+        <span class="stat-sub">Obsessed with sitcoms and art history.</span>
       </div>
     </section>
 
     <!-- Gallery -->
-    <section class="mb-20">
+    <section style="margin-bottom: 48px;">
       <div class="flex items-center justify-between mb-5">
         <div class="flex items-center gap-2 text-sm text-neutral-600">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -77,50 +75,34 @@ import Layout from '../layouts/Layout.astro';
         <span class="text-sm text-neutral-400">Gallery</span>
       </div>
 
-      <!-- Desktop grid (3-col asymmetric) -->
-      <div class="hidden md:grid gap-3" style="grid-template-columns: 2fr 1.3fr 1fr; grid-template-rows: 1fr 1fr; height: 420px;">
-        <div class="rounded-2xl overflow-hidden bg-neutral-200" style="grid-row: 1 / 3;">
+      <div class="gallery-grid">
+        <div class="gallery-large bg-neutral-200">
           <img src="/images/gallery-desk.jpg" alt="Labi Joshua at his workspace" class="w-full h-full object-cover" loading="lazy" />
         </div>
-        <div class="rounded-2xl overflow-hidden bg-neutral-300" style="grid-row: 1 / 3;">
+        <div class="gallery-mid bg-neutral-300">
           <img src="/images/gallery-cap.jpg" alt="Labi Joshua" class="w-full h-full object-cover" loading="lazy" />
         </div>
-        <div class="rounded-2xl overflow-hidden bg-neutral-200">
+        <div class="gallery-sm bg-neutral-200">
           <img src="/images/gallery-street.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
         </div>
-        <div class="rounded-2xl overflow-hidden bg-neutral-300">
-          <img src="/images/gallery-friends.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
-        </div>
-      </div>
-
-      <!-- Mobile grid (2-col: large left, 2 stacked right) -->
-      <div class="md:hidden grid grid-cols-2 gap-3" style="height: 300px;">
-        <div class="rounded-2xl overflow-hidden bg-neutral-200 row-span-2">
-          <img src="/images/gallery-desk.jpg" alt="Labi Joshua at his workspace" class="w-full h-full object-cover" loading="lazy" />
-        </div>
-        <div class="rounded-2xl overflow-hidden bg-neutral-300">
-          <img src="/images/gallery-cap.jpg" alt="Labi Joshua" class="w-full h-full object-cover" loading="lazy" />
-        </div>
-        <div class="rounded-2xl overflow-hidden bg-neutral-200">
+        <div class="gallery-sm bg-neutral-300">
           <img src="/images/gallery-friends.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
         </div>
       </div>
     </section>
 
     <!-- Me outside of work -->
-    <section class="grid md:grid-cols-2 gap-10 mb-20 items-start">
-      <h2 class="font-serif text-[40px] md:text-[44px] leading-tight text-neutral-900">
-        Me outside of work
-      </h2>
-      <div>
-        <p class="text-sm text-neutral-500 leading-relaxed mb-6">
+    <section class="outside-section" style="margin-bottom: 48px;">
+      <h2 class="outside-heading font-serif text-neutral-900">Me outside of work</h2>
+      <div class="outside-content">
+        <p class="text-sm text-neutral-500 leading-relaxed" style="margin-bottom: 24px;">
           I keep my downtime creative. You will likely find me getting inspired by shows like Abstract, or tuning into Sticky Notes and The Futur to keep my design mind sharp.
         </p>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="rounded-2xl overflow-hidden bg-blue-700" style="aspect-ratio: 16/10;">
+        <div class="outside-thumbnails">
+          <div class="outside-thumb bg-blue-700">
             <img src="/images/thefutur.jpg" alt="The Futur" class="w-full h-full object-cover" loading="lazy" />
           </div>
-          <div class="rounded-2xl overflow-hidden bg-red-500" style="aspect-ratio: 16/10;">
+          <div class="outside-thumb bg-red-500">
             <img src="/images/stickynotes.jpg" alt="Sticky Notes" class="w-full h-full object-cover" loading="lazy" />
           </div>
         </div>
@@ -128,44 +110,32 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <!-- How I work -->
-    <section class="grid md:grid-cols-2 gap-10 mb-20 items-start">
-      <h2 class="font-serif text-[40px] md:text-[44px] leading-tight text-neutral-900">
-        How I work
-      </h2>
+    <section class="two-col-section" style="margin-bottom: 48px;">
+      <h2 class="two-col-heading font-serif text-neutral-900">How I work</h2>
       <p class="text-sm text-neutral-500 leading-relaxed">
         I start by finding the real problem so I can build the best solution. I focus on making systems that are simple and built to last. I always try to improve my work and tools to make things run smoothly. Finally, I stay curious by looking at art and stories to find new ideas for my projects.
       </p>
     </section>
 
     <!-- Say hi -->
-    <section class="grid md:grid-cols-2 gap-10 mb-20 items-start">
-      <h2 class="font-serif text-[40px] md:text-[44px] leading-tight text-neutral-900">
-        Say hi.
-      </h2>
+    <section class="two-col-section" style="margin-bottom: 48px;">
+      <h2 class="two-col-heading font-serif text-neutral-900">Say hi.</h2>
       <div>
-        <p class="text-sm text-neutral-500 leading-relaxed mb-6">
+        <p class="text-sm text-neutral-500 leading-relaxed" style="margin-bottom: 24px;">
           I'm currently taking on one new project for Q3 2026 — and always happy to swap notes on systems, tokens, or what to lift on a Tuesday. The fastest way is email.
         </p>
-        <div class="flex flex-wrap gap-3">
-          <a
-            href="mailto:jospecial34@gmail.com"
-            class="flex flex-col gap-1 border border-dashed border-neutral-300 rounded-2xl px-5 py-3 hover:border-neutral-400 transition-colors"
-          >
-            <span class="text-xs text-neutral-400">Email</span>
-            <span class="text-sm text-neutral-700 font-medium">jospecial34@gmail.com</span>
+        <div class="contact-cards">
+          <a href="mailto:jospecial34@gmail.com" class="contact-card">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">jospecial34@gmail.com</span>
           </a>
-          <div class="flex flex-col gap-1 border border-dashed border-neutral-300 rounded-2xl px-5 py-3">
-            <span class="text-xs text-neutral-400">Phone number</span>
-            <span class="text-sm text-neutral-700 font-medium">+234 816 9203 595</span>
+          <div class="contact-card">
+            <span class="contact-label">Phone number</span>
+            <span class="contact-value">+234 816 9203 595</span>
           </div>
-          <a
-            href="https://twitter.com/Labi_Joshua"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex flex-col gap-1 border border-dashed border-neutral-300 rounded-2xl px-5 py-3 hover:border-neutral-400 transition-colors"
-          >
-            <span class="text-xs text-neutral-400">Twitter</span>
-            <span class="text-sm text-neutral-700 font-medium">@Labi_Joshua</span>
+          <a href="https://twitter.com/Labi_Joshua" target="_blank" rel="noopener noreferrer" class="contact-card">
+            <span class="contact-label">Twitter</span>
+            <span class="contact-value">@Labi_Joshua</span>
           </a>
         </div>
       </div>
@@ -174,3 +144,170 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
 </Layout>
+
+<style>
+  .contact-cards {
+    display: grid;
+    grid-template-columns: 182px 182px 182px;
+    gap: 12px;
+  }
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #F9FAFB;
+    border-radius: 16px;
+    padding: 12px 20px;
+    text-decoration: none;
+  }
+  .contact-label {
+    font-size: 11px;
+    color: #A3A3A3;
+  }
+  .contact-value {
+    font-size: 18px;
+    font-family: 'Instrument Serif', Georgia, serif;
+    color: #51782B;
+  }
+
+  .two-col-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .two-col-heading {
+    font-size: 44px;
+    line-height: 1.15;
+  }
+  @media (max-width: 767px) {
+    .two-col-section { grid-template-columns: 1fr; }
+    .two-col-heading { font-size: 36px; }
+  }
+
+  .outside-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .outside-heading {
+    font-size: 44px;
+    line-height: 1.15;
+  }
+  .outside-thumbnails {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .outside-thumb {
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+  }
+  .outside-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 767px) {
+    .outside-section { grid-template-columns: 1fr; }
+    .outside-heading { font-size: 36px; }
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 420px;
+  }
+  .gallery-large {
+    grid-row: 1 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .gallery-mid {
+    grid-row: 1 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .gallery-sm {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  @media (max-width: 767px) {
+    .gallery-grid {
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: 280px;
+    }
+    .gallery-mid { display: none; }
+  }
+
+  .stats-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .stat-card {
+    background-color: #F9FAFB;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: #A3A3A3;
+  }
+  .stat-value {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 24px;
+    color: #51782B;
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: #A3A3A3;
+    margin-top: 16px;
+    text-align: right;
+  }
+  @media (max-width: 767px) {
+    .stats-section {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .intro-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .intro-photo {
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: #e5e5e5;
+    width: 448px;
+    height: 520px;
+    flex-shrink: 0;
+  }
+  .intro-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  @media (max-width: 767px) {
+    .intro-section {
+      grid-template-columns: 1fr;
+    }
+    .intro-photo {
+      min-height: 260px;
+    }
+  }
+</style>
+
