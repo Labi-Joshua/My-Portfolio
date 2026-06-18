@@ -240,18 +240,22 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
 
 <script is:inline>
   (function () {
-    const PER_PAGE = 6;
     const cards = document.querySelectorAll('.thought-card');
     const prevBtn = document.getElementById('thoughts-prev');
     const nextBtn = document.getElementById('thoughts-next');
     const pageLabel = document.getElementById('thoughts-page');
     const total = cards.length;
-    const totalPages = Math.ceil(total / PER_PAGE);
+    const mq = window.matchMedia('(min-width: 768px)');
     let page = 0;
 
+    function perPage() { return mq.matches ? 6 : 3; }
+
     function render() {
+      const pp = perPage();
+      const totalPages = Math.ceil(total / pp);
+      page = Math.min(page, totalPages - 1);
       cards.forEach((card, i) => {
-        card.style.display = (i >= page * PER_PAGE && i < (page + 1) * PER_PAGE) ? '' : 'none';
+        card.style.display = (i >= page * pp && i < (page + 1) * pp) ? '' : 'none';
       });
       if (pageLabel) pageLabel.textContent = `Page ${page + 1} of ${totalPages}`;
       if (prevBtn) prevBtn.disabled = page === 0;
@@ -260,6 +264,7 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
 
     if (prevBtn) prevBtn.addEventListener('click', () => { page--; render(); });
     if (nextBtn) nextBtn.addEventListener('click', () => { page++; render(); });
+    mq.addEventListener('change', () => { page = 0; render(); });
 
     render();
   })();
