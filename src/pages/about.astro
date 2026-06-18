@@ -1,0 +1,176 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="About — Labi Joshua"
+  description="I'm a product designer who loves figuring out how things work and how they are made."
+>
+
+  <!-- Hero -->
+  <section class="pt-16 pb-12 px-6 text-center max-w-2xl mx-auto">
+    <span class="inline-block border border-dashed border-neutral-300 bg-neutral-100 rounded-full px-4 py-1 text-xs tracking-wide mb-6" style="color: rgba(0, 0, 0, 0.5);">
+      This is me
+    </span>
+    <h1 class="font-serif text-5xl md:text-[52px] leading-[1.15] tracking-tight text-neutral-900">
+      Welcome to my corner of the Interweb.
+    </h1>
+  </section>
+
+  <div class="max-w-[1100px] mx-auto px-6">
+
+    <!-- Intro: Photo + Bio -->
+    <section class="grid md:grid-cols-2 gap-10 mb-16 items-start">
+      <div class="rounded-3xl overflow-hidden bg-neutral-200" style="aspect-ratio: 4/5;">
+        <img
+          src="/images/about-profile.jpg"
+          alt="Labi Joshua standing in an art gallery"
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+        />
+      </div>
+      <div class="flex flex-col justify-center py-4 gap-4">
+        <h2 class="font-serif leading-tight text-neutral-900" style="font-size: 36px;">
+          <span style="color: #51782B;">Hi!</span> I'm Labi Joshua.
+        </h2>
+        <div class="flex flex-col gap-4 text-sm text-neutral-500 leading-relaxed">
+          <p>I am a product designer who loves figuring out how things work and how they are made.</p>
+          <p>My journey started when I studied Industrial Design at FUTA. There, I learned to build and shape physical objects. In my second year, I discovered digital product design and started playing with how things look and now people use them. I realized that whether I am making a physical tool or a digital app, the same rule applies. The craft matters.</p>
+          <p>Now, I spend most of my time focusing on the work behind the scenes. I am interested in finding better ways to get things done. I build systems and tools that make my work smooth and easy. My goal is to build systems that help me be more creative.</p>
+          <p>Outside of work, you can find me watching a funny sitcom or looking at art. I am not a painter, but I have a lot of respect for the hard work and ideas that go into making art. I bring that same respect to my design work. I am always looking for ways to combine solid structure with creative ideas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="rounded-2xl overflow-hidden mb-16" style="background-color: #F5F5F5;">
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-neutral-200">
+        <div class="px-6 py-6 flex flex-col gap-1.5">
+          <span class="text-xs text-neutral-400">Based in:</span>
+          <span class="font-serif text-2xl" style="color: #51782B;">Lagos, Nigeria</span>
+          <span class="text-xs text-neutral-400 mt-4">UTC+1, Always available.</span>
+        </div>
+        <div class="px-6 py-6 flex flex-col gap-1.5">
+          <span class="text-xs text-neutral-400">Doing this for:</span>
+          <span class="font-serif text-2xl" style="color: #51782B;">3+ years</span>
+          <span class="text-xs text-neutral-400 mt-4">A lifetime of making things with my hands.</span>
+        </div>
+        <div class="px-6 py-6 flex flex-col gap-1.5">
+          <span class="text-xs text-neutral-400">Off the clock:</span>
+          <span class="font-serif text-2xl" style="color: #51782B;">Creative Consumer</span>
+          <span class="text-xs text-neutral-400 mt-4">Obsessed with sitcoms and art history.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="mb-20">
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2 text-sm text-neutral-600">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Welcome to my world
+        </div>
+        <span class="text-sm text-neutral-400">Gallery</span>
+      </div>
+
+      <!-- Desktop grid (3-col asymmetric) -->
+      <div class="hidden md:grid gap-3" style="grid-template-columns: 2fr 1.3fr 1fr; grid-template-rows: 1fr 1fr; height: 420px;">
+        <div class="rounded-2xl overflow-hidden bg-neutral-200" style="grid-row: 1 / 3;">
+          <img src="/images/gallery-desk.jpg" alt="Labi Joshua at his workspace" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="rounded-2xl overflow-hidden bg-neutral-300" style="grid-row: 1 / 3;">
+          <img src="/images/gallery-cap.jpg" alt="Labi Joshua" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="rounded-2xl overflow-hidden bg-neutral-200">
+          <img src="/images/gallery-street.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="rounded-2xl overflow-hidden bg-neutral-300">
+          <img src="/images/gallery-friends.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+
+      <!-- Mobile grid (2-col: large left, 2 stacked right) -->
+      <div class="md:hidden grid grid-cols-2 gap-3" style="height: 300px;">
+        <div class="rounded-2xl overflow-hidden bg-neutral-200 row-span-2">
+          <img src="/images/gallery-desk.jpg" alt="Labi Joshua at his workspace" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="rounded-2xl overflow-hidden bg-neutral-300">
+          <img src="/images/gallery-cap.jpg" alt="Labi Joshua" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="rounded-2xl overflow-hidden bg-neutral-200">
+          <img src="/images/gallery-friends.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Me outside of work -->
+    <section class="grid md:grid-cols-2 gap-10 mb-20 items-start">
+      <h2 class="font-serif text-[40px] md:text-[44px] leading-tight text-neutral-900">
+        Me outside of work
+      </h2>
+      <div>
+        <p class="text-sm text-neutral-500 leading-relaxed mb-6">
+          I keep my downtime creative. You will likely find me getting inspired by shows like Abstract, or tuning into Sticky Notes and The Futur to keep my design mind sharp.
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-2xl overflow-hidden bg-blue-700" style="aspect-ratio: 16/10;">
+            <img src="/images/thefutur.jpg" alt="The Futur" class="w-full h-full object-cover" loading="lazy" />
+          </div>
+          <div class="rounded-2xl overflow-hidden bg-red-500" style="aspect-ratio: 16/10;">
+            <img src="/images/stickynotes.jpg" alt="Sticky Notes" class="w-full h-full object-cover" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How I work -->
+    <section class="grid md:grid-cols-2 gap-10 mb-20 items-start">
+      <h2 class="font-serif text-[40px] md:text-[44px] leading-tight text-neutral-900">
+        How I work
+      </h2>
+      <p class="text-sm text-neutral-500 leading-relaxed">
+        I start by finding the real problem so I can build the best solution. I focus on making systems that are simple and built to last. I always try to improve my work and tools to make things run smoothly. Finally, I stay curious by looking at art and stories to find new ideas for my projects.
+      </p>
+    </section>
+
+    <!-- Say hi -->
+    <section class="grid md:grid-cols-2 gap-10 mb-20 items-start">
+      <h2 class="font-serif text-[40px] md:text-[44px] leading-tight text-neutral-900">
+        Say hi.
+      </h2>
+      <div>
+        <p class="text-sm text-neutral-500 leading-relaxed mb-6">
+          I'm currently taking on one new project for Q3 2026 — and always happy to swap notes on systems, tokens, or what to lift on a Tuesday. The fastest way is email.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="mailto:jospecial34@gmail.com"
+            class="flex flex-col gap-1 border border-dashed border-neutral-300 rounded-2xl px-5 py-3 hover:border-neutral-400 transition-colors"
+          >
+            <span class="text-xs text-neutral-400">Email</span>
+            <span class="text-sm text-neutral-700 font-medium">jospecial34@gmail.com</span>
+          </a>
+          <div class="flex flex-col gap-1 border border-dashed border-neutral-300 rounded-2xl px-5 py-3">
+            <span class="text-xs text-neutral-400">Phone number</span>
+            <span class="text-sm text-neutral-700 font-medium">+234 816 9203 595</span>
+          </div>
+          <a
+            href="https://twitter.com/Labi_Joshua"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col gap-1 border border-dashed border-neutral-300 rounded-2xl px-5 py-3 hover:border-neutral-400 transition-colors"
+          >
+            <span class="text-xs text-neutral-400">Twitter</span>
+            <span class="text-sm text-neutral-700 font-medium">@Labi_Joshua</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</Layout>
