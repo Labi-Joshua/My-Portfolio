@@ -154,11 +154,11 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
 
               <!-- Meta: mobile only (top of content) -->
               <div class="md:hidden flex items-center gap-1.5 mb-2">
-                <span class="text-[6px] font-medium" style="color: #51782B;">{article.category}</span>
+                <span class="text-[8px] font-medium" style="color: #51782B;">{article.category}</span>
                 <span class="w-1 h-1 rounded-full inline-block shrink-0" style="background-color: #51782B;"></span>
-                <span class="text-[6px] font-medium" style="color: #51782B;">{article.readTime} mins</span>
-                <span class="text-[6px] text-neutral-300 mx-0.5">|</span>
-                <span class="text-[6px] text-neutral-400">{formatArticleDate(article.date)}</span>
+                <span class="text-[8px] font-medium" style="color: #51782B;">{article.readTime} mins</span>
+                <span class="text-[8px] text-neutral-300 mx-0.5">|</span>
+                <span class="text-[8px] text-neutral-400">{formatArticleDate(article.date)}</span>
               </div>
 
               <p class="font-serif text-neutral-900 leading-snug" style="font-size: 20px;">
@@ -171,11 +171,11 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
 
             <!-- Meta: desktop only (separate column) -->
             <div class="hidden md:flex shrink-0 text-right flex-col items-end gap-1.5 min-w-[120px]">
-              <span class="text-[6px] md:text-xs text-neutral-400">{formatArticleDate(article.date)}</span>
+              <span class="text-[8px] md:text-xs text-neutral-400">{formatArticleDate(article.date)}</span>
               <div class="flex items-center gap-1.5">
-                <span class="text-[6px] md:text-xs font-medium" style="color: #51782B;">{article.category}</span>
+                <span class="text-[8px] md:text-xs font-medium" style="color: #51782B;">{article.category}</span>
                 <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #51782B;"></span>
-                <span class="text-[6px] md:text-xs font-medium" style="color: #51782B;">{article.readTime} mins</span>
+                <span class="text-[8px] md:text-xs font-medium" style="color: #51782B;">{article.readTime} mins</span>
               </div>
             </div>
           </a>
