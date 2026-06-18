@@ -11,7 +11,11 @@ const years = caseStudies.map(p => parseInt(p.year)).filter(Boolean);
 const yearRange = years.length ? `${Math.min(...years)} — ${new Date().getFullYear() + 1}` : '';
 ---
 
-<Layout title="Labi Joshua — Product Designer">
+<Layout
+  title="Labi Joshua — Product Designer"
+  description="Labi Joshua is a Product Designer who builds systems to solve complex problems."
+  socialLinks={settings.socialLinks}
+>
 
   <Hero
     contactHref={settings.contactUrl}

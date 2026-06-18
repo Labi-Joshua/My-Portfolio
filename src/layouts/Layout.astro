@@ -10,14 +10,16 @@ interface Props {
   showCTA?: boolean;
   ogImage?: string;
   ogType?: 'website' | 'article';
+  socialLinks?: string[];
 }
 
 const {
   title,
-  description = 'Joshua Owolabi — Product Designer who builds systems to solve complex problems.',
+  description = 'Labi Joshua is a Product Designer who builds systems to solve complex problems.',
   showCTA = true,
   ogImage,
   ogType = 'website',
+  socialLinks = [],
 } = Astro.props;
 
 const siteUrl = 'https://labijoshua.com';
@@ -29,15 +31,29 @@ const jsonLd = {
   '@graph': [
     {
       '@type': 'Person',
-      name: 'Joshua Owolabi',
+      '@id': `${siteUrl}/#person`,
+      name: 'Labi Joshua',
+      alternateName: 'Joshua Owolabi',
       url: siteUrl,
       jobTitle: 'Product Designer',
-      sameAs: [],
+      description: 'Product Designer who builds systems to solve complex problems.',
+      image: socialImage,
+      sameAs: socialLinks,
     },
     {
       '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
       name: 'Labi Joshua',
       url: siteUrl,
+      author: { '@id': `${siteUrl}/#person` },
+    },
+    {
+      '@type': 'WebPage',
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      about: { '@id': `${siteUrl}/#person` },
     },
   ],
 };
@@ -54,7 +70,7 @@ const jsonLd = {
     <!-- Primary -->
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Joshua Owolabi" />
+    <meta name="author" content="Labi Joshua" />
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
@@ -74,7 +90,7 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
 
-    <!-- JSON-LD -->
+    <!-- JSON-LD structured data -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="bg-white text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
