@@ -22,9 +22,9 @@ const { title, description = 'Joshua Owolabi — Product Designer', showCTA = tr
     <meta name="description" content={description} />
     <title>{title}</title>
   </head>
-  <body class="bg-white text-neutral-900 font-sans antialiased">
+  <body class="bg-white text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
     <Nav />
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
     {showCTA && <FooterCTA />}
