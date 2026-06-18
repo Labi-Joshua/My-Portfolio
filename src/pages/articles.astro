@@ -354,7 +354,6 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
     function renderPagination(totalPages) {
       if (!paginationEl) return;
       paginationEl.innerHTML = '';
-      if (totalPages <= 1) return;
 
       paginationEl.appendChild(btn(
         `<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M9 2.5L4.5 7 9 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
