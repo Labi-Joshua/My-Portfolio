@@ -14,8 +14,16 @@ export interface Article {
 }
 
 export interface TinyThought {
-  datetime: string;
+  datetime: string; // formatted for display
   quote: string;
+}
+
+export function formatThoughtDatetime(iso: string): string {
+  if (!iso) return ''
+  const d = new Date(iso)
+  const date = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+  return `${date} | ${time}`
 }
 
 export function formatArticleDate(iso: string): string {
@@ -42,10 +50,14 @@ export async function getArticles(): Promise<Article[]> {
 }
 
 export async function getTinyThoughts(): Promise<TinyThought[]> {
-  return sanityClient.fetch(`
-    *[_type == "tinyThought"] | order(_createdAt desc) {
+  const data = await sanityClient.fetch(`
+    *[_type == "tinyThought"] | order(postedAt desc) {
       quote,
-      datetime
+      postedAt
     }
   `)
+  return data.map((t: { quote: string; postedAt: string }) => ({
+    quote: t.quote,
+    datetime: formatThoughtDatetime(t.postedAt),
+  }))
 }
