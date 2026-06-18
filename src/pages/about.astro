@@ -133,10 +133,6 @@ import Layout from '../layouts/Layout.astro';
             <span class="contact-label">Phone number</span>
             <span class="contact-value">+234 816 9203 595</span>
           </div>
-          <a href="https://twitter.com/Labi_Joshua" target="_blank" rel="noopener noreferrer" class="contact-card">
-            <span class="contact-label">Twitter</span>
-            <span class="contact-value">@Labi_Joshua</span>
-          </a>
         </div>
       </div>
     </section>
@@ -151,11 +147,12 @@ import Layout from '../layouts/Layout.astro';
   }
   @media (max-width: 767px) {
     .about-hero {
-      margin-bottom: 48px;
+      display: none;
     }
     .about-content {
       display: flex;
       flex-direction: column;
+      padding-top: 48px;
     }
     .intro-section   { order: 1; }
     .gallery-section { order: 2; }
@@ -167,7 +164,7 @@ import Layout from '../layouts/Layout.astro';
 
   .contact-cards {
     display: grid;
-    grid-template-columns: 182px 182px 182px;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
   .contact-card {
