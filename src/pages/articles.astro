@@ -322,9 +322,11 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
   (function () {
     const allItems = Array.from(document.querySelectorAll('.article-item'));
     const paginationEl = document.getElementById('articles-pagination');
-    const PER_PAGE = 10;
+    const mq = window.matchMedia('(min-width: 768px)');
     let page = 0;
     let visibleItems = allItems;
+
+    function perPage() { return mq.matches ? 10 : 6; }
 
     function pageRange(current, totalPages) {
       if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i);
@@ -378,12 +380,15 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
     }
 
     function render() {
-      const totalPages = Math.max(1, Math.ceil(visibleItems.length / PER_PAGE));
+      const pp = perPage();
+      const totalPages = Math.max(1, Math.ceil(visibleItems.length / pp));
       page = Math.min(page, totalPages - 1);
       allItems.forEach(item => { item.style.display = 'none'; });
-      visibleItems.slice(page * PER_PAGE, (page + 1) * PER_PAGE).forEach(item => { item.style.display = ''; });
+      visibleItems.slice(page * pp, (page + 1) * pp).forEach(item => { item.style.display = ''; });
       renderPagination(totalPages);
     }
+
+    mq.addEventListener('change', () => { page = 0; render(); });
 
     window.setArticlesVisible = function (items) {
       visibleItems = items;
