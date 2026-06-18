@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FooterCTA from '../components/FooterCTA.astro';
+import { getSiteSettings } from '../data/settings';
 
 interface Props {
   title: string;
@@ -22,6 +23,8 @@ const {
   socialLinks = [],
 } = Astro.props;
 
+const settings = await getSiteSettings();
+
 const siteUrl = 'https://labijoshua.com';
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const socialImage = ogImage || `${siteUrl}/og-default.png`;
@@ -38,7 +41,13 @@ const jsonLd = {
       jobTitle: 'Product Designer',
       description: 'Product Designer who builds systems to solve complex problems.',
       image: socialImage,
-      sameAs: socialLinks,
+      sameAs: [
+        ...socialLinks,
+        settings.mediumUrl,
+        settings.twitterUrl,
+        settings.instagramUrl,
+        settings.linkedinUrl,
+      ].filter(Boolean),
     },
     {
       '@type': 'WebSite',
@@ -99,6 +108,11 @@ const jsonLd = {
       <slot />
     </main>
     {showCTA && <FooterCTA />}
-    <Footer />
+    <Footer
+      mediumUrl={settings.mediumUrl}
+      twitterUrl={settings.twitterUrl}
+      instagramUrl={settings.instagramUrl}
+      linkedinUrl={settings.linkedinUrl}
+    />
   </body>
 </html>

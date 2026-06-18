@@ -3,7 +3,10 @@ import { sanityClient } from '../lib/sanity'
 export interface SiteSettings {
   contactUrl?: string;
   resumeUrl?: string;
-  socialLinks?: string[];
+  mediumUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  linkedinUrl?: string;
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -11,7 +14,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     *[_type == "siteSettings"][0] {
       contactUrl,
       resumeUrl,
-      socialLinks
+      mediumUrl,
+      twitterUrl,
+      instagramUrl,
+      linkedinUrl
     }
   `)
   return data ?? {}

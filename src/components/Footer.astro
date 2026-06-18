@@ -1,4 +1,18 @@
 ---
+interface Props {
+  mediumUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  linkedinUrl?: string;
+}
+
+const {
+  mediumUrl = '#',
+  twitterUrl = '#',
+  instagramUrl = '#',
+  linkedinUrl = '#',
+} = Astro.props;
+
 const year = new Date().getFullYear();
 ---
 
@@ -6,34 +20,39 @@ const year = new Date().getFullYear();
   <div class="max-w-[1100px] mx-auto px-6 py-5 flex items-center justify-between rounded-2xl" style="background-color: #F5F5F5;">
     <!-- Social icons -->
     <div class="flex items-center gap-3">
-      <!-- Facebook -->
-      <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="Facebook">
+
+      <!-- Medium -->
+      <a href={mediumUrl} target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="Medium">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          <path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
         </svg>
       </a>
+
       <!-- Twitter / X -->
-      <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="Twitter">
+      <a href={twitterUrl} target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="Twitter">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
           <path d="M4 4l16 16M4 20 20 4"/>
         </svg>
       </a>
+
       <!-- Instagram -->
-      <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="Instagram">
+      <a href={instagramUrl} target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="Instagram">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
           <circle cx="12" cy="12" r="4"/>
           <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
         </svg>
       </a>
+
       <!-- LinkedIn -->
-      <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="LinkedIn">
+      <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style="background-color: #51782B;" aria-label="LinkedIn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
           <rect x="2" y="9" width="4" height="12"/>
           <circle cx="4" cy="4" r="2"/>
         </svg>
       </a>
+
     </div>
 
     <p class="text-sm text-neutral-400">© {year} Labi Joshua. All rights reserved.</p>
