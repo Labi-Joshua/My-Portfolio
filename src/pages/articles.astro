@@ -182,6 +182,8 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
         ))}
       </div>
 
+      <div id="articles-pagination" class="flex items-center gap-1.5 mt-4 justify-center md:justify-end"></div>
+
       <!-- Empty state (hidden by default) -->
       <p id="no-results" class="hidden text-sm text-neutral-400 text-center py-12">
         No articles in this category yet.
@@ -316,6 +318,84 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
   })();
 </script>
 
+<script is:inline>
+  (function () {
+    const allItems = Array.from(document.querySelectorAll('.article-item'));
+    const paginationEl = document.getElementById('articles-pagination');
+    const PER_PAGE = 10;
+    let page = 0;
+    let visibleItems = allItems;
+
+    function pageRange(current, totalPages) {
+      if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i);
+      const delta = 1;
+      const left = Math.max(1, current - delta);
+      const right = Math.min(totalPages - 2, current + delta);
+      const range = [];
+      if (left > 1) range.push('...');
+      for (let i = left; i <= right; i++) range.push(i);
+      if (right < totalPages - 2) range.push('...');
+      return [0, ...range, totalPages - 1];
+    }
+
+    function btn(label, onClick, disabled, active) {
+      const el = document.createElement('button');
+      el.innerHTML = label;
+      el.disabled = disabled;
+      const base = 'width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;transition:opacity 0.15s;flex-shrink:0;';
+      el.style.cssText = base + (active ? 'background:#51782B;color:#fff;' : 'background:#F0F0F0;color:#404040;');
+      if (!active && !disabled) el.onmouseenter = () => el.style.background = '#E0E0E0';
+      el.onmouseleave = () => { if (!active) el.style.background = '#F0F0F0'; };
+      if (disabled) el.style.opacity = '0.35';
+      if (!disabled) el.addEventListener('click', () => { onClick(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      return el;
+    }
+
+    function renderPagination(totalPages) {
+      if (!paginationEl) return;
+      paginationEl.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      paginationEl.appendChild(btn(
+        `<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M9 2.5L4.5 7 9 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+        () => { page--; render(); }, page === 0, false
+      ));
+
+      pageRange(page, totalPages).forEach(p => {
+        if (p === '...') {
+          const el = document.createElement('span');
+          el.textContent = '...';
+          el.style.cssText = 'font-size:12px;color:#9CA3AF;padding:0 2px;';
+          paginationEl.appendChild(el);
+        } else {
+          paginationEl.appendChild(btn(p + 1, () => { page = p; render(); }, false, p === page));
+        }
+      });
+
+      paginationEl.appendChild(btn(
+        `<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+        () => { page++; render(); }, page >= totalPages - 1, false
+      ));
+    }
+
+    function render() {
+      const totalPages = Math.max(1, Math.ceil(visibleItems.length / PER_PAGE));
+      page = Math.min(page, totalPages - 1);
+      allItems.forEach(item => { item.style.display = 'none'; });
+      visibleItems.slice(page * PER_PAGE, (page + 1) * PER_PAGE).forEach(item => { item.style.display = ''; });
+      renderPagination(totalPages);
+    }
+
+    window.setArticlesVisible = function (items) {
+      visibleItems = items;
+      page = 0;
+      render();
+    };
+
+    render();
+  })();
+</script>
+
 <script define:vars={{ articles: articlesForScript }} is:inline>
   const filterButtons = document.querySelectorAll('.filter-btn');
   const articleItems = document.querySelectorAll('.article-item');
@@ -354,17 +434,15 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
       // Update featured card content
       updateFeaturedCard(filter);
 
-      // Show/hide list items
-      let visibleCount = 0;
-      articleItems.forEach(item => {
-        const match = filter === 'all' || item.dataset.category === filter;
-        item.style.display = match ? '' : 'none';
-        if (match) visibleCount++;
-      });
+      // Hand filtered items to pagination
+      const matching = Array.from(articleItems).filter(item =>
+        filter === 'all' || item.dataset.category === filter
+      );
+      if (window.setArticlesVisible) window.setArticlesVisible(matching);
 
       // Empty state
       if (noResults) {
-        noResults.classList.toggle('hidden', visibleCount > 0);
+        noResults.classList.toggle('hidden', matching.length > 0);
       }
     });
   });
