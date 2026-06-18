@@ -4,15 +4,19 @@ import Hero from '../components/Hero.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import ExperimentCard from '../components/ExperimentCard.astro';
 import { getCaseStudies, getExperiments } from '../data/projects';
+import { getSiteSettings } from '../data/settings';
 
-const [caseStudies, experiments] = await Promise.all([getCaseStudies(), getExperiments()]);
+const [caseStudies, experiments, settings] = await Promise.all([getCaseStudies(), getExperiments(), getSiteSettings()]);
 const years = caseStudies.map(p => parseInt(p.year)).filter(Boolean);
 const yearRange = years.length ? `${Math.min(...years)} — ${new Date().getFullYear() + 1}` : '';
 ---
 
 <Layout title="Labi Joshua — Product Designer">
 
-  <Hero />
+  <Hero
+    contactHref={settings.contactUrl}
+    resumeHref={settings.resumeUrl}
+  />
 
   <!-- Selected Works -->
   <section id="work" class="px-6 pb-16 max-w-[1116px] mx-auto" style="margin-bottom: 64px;">
