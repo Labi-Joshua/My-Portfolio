@@ -9,7 +9,12 @@ const project = caseStudies.find(p => p.slug === slug);
 if (!project) return Astro.redirect('/404');
 ---
 
-<Layout title={`${project.title.replace('\n', ' ')} — Joshua Owolabi`} description={project.tags}>
+<Layout
+  title={`${project.title.replace('\n', ' ')} — Joshua Owolabi`}
+  description={project.tags}
+  ogImage={project.coverImage}
+  ogType="website"
+>
 
   <!-- Product preview hero — full bleed -->
   {project.previewImages.length > 0 && (
