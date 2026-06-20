@@ -17,7 +17,7 @@ if (!project) return Astro.redirect('/404');
 >
 
   <!-- Product preview hero — full bleed -->
-  {project.previewImages.length > 0 && (
+  {project.previewImages?.length > 0 && (
     <div class="w-full aspect-[16/7] overflow-hidden bg-card">
       <img
         src={project.previewImages[0].src}
@@ -79,7 +79,7 @@ if (!project) return Astro.redirect('/404');
           </div>
         </div>
 
-        {project.technicalSpecs.length > 0 && (
+        {project.technicalSpecs?.length > 0 && (
           <div>
             <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">Technical Specs</p>
             <div class="flex flex-col gap-1.5">
@@ -102,7 +102,7 @@ if (!project) return Astro.redirect('/404');
 
     <!-- Right content -->
     <div class="flex flex-col gap-14">
-      {project.sections.map((section, si) => (
+      {project.sections?.map((section, si) => (
         <div class="flex flex-col gap-5">
           <h3 class="text-2xl font-serif font-medium text-neutral-900">{section.heading}</h3>
           <p class="text-neutral-600 leading-relaxed text-base">{section.body}</p>
