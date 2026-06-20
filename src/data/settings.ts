@@ -7,6 +7,7 @@ export interface SiteSettings {
   twitterUrl?: string;
   instagramUrl?: string;
   linkedinUrl?: string;
+  socialLinks?: string[];
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {

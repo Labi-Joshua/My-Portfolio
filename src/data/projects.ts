@@ -3,6 +3,7 @@ import { sanityClient } from '../lib/sanity'
 export interface CaseStudy {
   slug: string;
   title: string;
+  description?: string;
   tags: string;
   coverImage: string;
   coverAlt: string;
@@ -39,6 +40,7 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
     *[_type == "caseStudy"] | order(_createdAt asc) {
       "slug": slug.current,
       title,
+      description,
       tags,
       "coverImage": coverImage.asset->url,
       coverAlt,
