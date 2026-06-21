@@ -1,5 +1,56 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getAboutPage } from '../data/about';
+
+const about = await getAboutPage();
+
+const profilePhoto    = about.profilePhoto    || '/images/about-profile.jpg';
+const profilePhotoAlt = about.profilePhotoAlt || 'Labi Joshua standing in an art gallery';
+
+const bioParagraphs = about.bioParagraphs?.length
+  ? about.bioParagraphs
+  : [
+      'I am a product designer who loves figuring out how things work and how they are made.',
+      'My journey started when I studied Industrial Design at FUTA. There, I learned to build and shape physical objects. In my second year, I discovered digital product design and started playing with how things look and now people use them. I realized that whether I am making a physical tool or a digital app, the same rule applies. The craft matters.',
+      'Now, I spend most of my time focusing on the work behind the scenes. I am interested in finding better ways to get things done. I build systems and tools that make my work smooth and easy. My goal is to build systems that help me be more creative.',
+      'Outside of work, you can find me watching a funny sitcom or looking at art. I am not a painter, but I have a lot of respect for the hard work and ideas that go into making art. I bring that same respect to my design work. I am always looking for ways to combine solid structure with creative ideas.',
+    ];
+
+const stats = about.stats?.length
+  ? about.stats
+  : [
+      { label: 'Based in:',      value: 'Lagos, Nigeria',    sub: 'UTC+1, Always available.' },
+      { label: 'Doing this for:', value: '3+ years',          sub: 'A lifetime of making things with my hands.' },
+      { label: 'Off the clock:',  value: 'Creative Consumer', sub: 'Obsessed with sitcoms and art history.' },
+    ];
+
+const galleryImages = about.galleryImages?.length
+  ? about.galleryImages
+  : [
+      { src: '/images/gallery-desk.jpg',    alt: 'Labi Joshua at his workspace' },
+      { src: '/images/gallery-cap.jpg',     alt: 'Labi Joshua' },
+      { src: '/images/gallery-street.jpg',  alt: '' },
+      { src: '/images/gallery-friends.jpg', alt: '' },
+    ];
+
+const outsideDescription = about.outsideDescription
+  || 'I keep my downtime creative. You will likely find me getting inspired by shows like Abstract, or tuning into Sticky Notes and The Futur to keep my design mind sharp.';
+
+const outsideThumbnails = about.outsideThumbnails?.length
+  ? about.outsideThumbnails
+  : [
+      { src: '/images/thefutur.jpg',    alt: 'The Futur' },
+      { src: '/images/stickynotes.jpg', alt: 'Sticky Notes' },
+    ];
+
+const howIWorkDescription = about.howIWorkDescription
+  || 'I start by finding the real problem so I can build the best solution. I focus on making systems that are simple and built to last. I always try to improve my work and tools to make things run smoothly. Finally, I stay curious by looking at art and stories to find new ideas for my projects.';
+
+const sayHiDescription = about.sayHiDescription
+  || "I'm currently taking on one new project for Q3 2026 — and always happy to swap notes on systems, tokens, or what to lift on a Tuesday. The fastest way is email.";
+
+const email = about.email || 'jospecial34@gmail.com';
+const phone = about.phone || '+234 816 9203 595';
 ---
 
 <Layout
@@ -23,8 +74,8 @@ import Layout from '../layouts/Layout.astro';
     <section class="intro-section mb-16">
       <div class="intro-photo">
         <img
-          src="/images/about-profile.jpg"
-          alt="Labi Joshua standing in an art gallery"
+          src={profilePhoto}
+          alt={profilePhotoAlt}
           class="w-full h-full object-cover object-top"
           loading="eager"
         />
@@ -34,31 +85,20 @@ import Layout from '../layouts/Layout.astro';
           <span style="color: #51782B;">Hi!</span> I'm Labi Joshua.
         </h2>
         <div class="flex flex-col gap-3 text-sm text-neutral-500 leading-relaxed">
-          <p>I am a product designer who loves figuring out how things work and how they are made.</p>
-          <p>My journey started when I studied Industrial Design at FUTA. There, I learned to build and shape physical objects. In my second year, I discovered digital product design and started playing with how things look and now people use them. I realized that whether I am making a physical tool or a digital app, the same rule applies. The craft matters.</p>
-          <p>Now, I spend most of my time focusing on the work behind the scenes. I am interested in finding better ways to get things done. I build systems and tools that make my work smooth and easy. My goal is to build systems that help me be more creative.</p>
-          <p>Outside of work, you can find me watching a funny sitcom or looking at art. I am not a painter, but I have a lot of respect for the hard work and ideas that go into making art. I bring that same respect to my design work. I am always looking for ways to combine solid structure with creative ideas.</p>
+          {bioParagraphs.map((para) => <p>{para}</p>)}
         </div>
       </div>
     </section>
 
     <!-- Stats -->
     <section class="stats-section mb-16">
-      <div class="stat-card">
-        <span class="stat-label">Based in:</span>
-        <span class="stat-value">Lagos, Nigeria</span>
-        <span class="stat-sub">UTC+1, Always available.</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Doing this for:</span>
-        <span class="stat-value">3+ years</span>
-        <span class="stat-sub">A lifetime of making things with my hands.</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Off the clock:</span>
-        <span class="stat-value">Creative Consumer</span>
-        <span class="stat-sub">Obsessed with sitcoms and art history.</span>
-      </div>
+      {stats.map((s) => (
+        <div class="stat-card">
+          <span class="stat-label">{s.label}</span>
+          <span class="stat-value">{s.value}</span>
+          <span class="stat-sub">{s.sub}</span>
+        </div>
+      ))}
     </section>
 
     <!-- Gallery -->
@@ -77,17 +117,21 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="gallery-grid">
         <div class="gallery-large bg-neutral-200">
-          <img src="/images/gallery-desk.jpg" alt="Labi Joshua at his workspace" class="w-full h-full object-cover" loading="lazy" />
+          <img src={galleryImages[0]?.src} alt={galleryImages[0]?.alt} class="w-full h-full object-cover" loading="lazy" />
         </div>
         <div class="gallery-mid bg-neutral-300">
-          <img src="/images/gallery-cap.jpg" alt="Labi Joshua" class="w-full h-full object-cover" loading="lazy" />
+          <img src={galleryImages[1]?.src} alt={galleryImages[1]?.alt} class="w-full h-full object-cover" loading="lazy" />
         </div>
-        <div class="gallery-sm bg-neutral-200">
-          <img src="/images/gallery-street.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
-        </div>
-        <div class="gallery-sm bg-neutral-300">
-          <img src="/images/gallery-friends.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
-        </div>
+        {galleryImages[2] && (
+          <div class="gallery-sm bg-neutral-200">
+            <img src={galleryImages[2].src} alt={galleryImages[2].alt} class="w-full h-full object-cover" loading="lazy" />
+          </div>
+        )}
+        {galleryImages[3] && (
+          <div class="gallery-sm bg-neutral-300">
+            <img src={galleryImages[3].src} alt={galleryImages[3].alt} class="w-full h-full object-cover" loading="lazy" />
+          </div>
+        )}
       </div>
     </section>
 
@@ -96,15 +140,14 @@ import Layout from '../layouts/Layout.astro';
       <h2 class="outside-heading font-serif text-neutral-900">Me outside of work</h2>
       <div class="outside-content">
         <p class="text-sm text-neutral-500 leading-relaxed" style="margin-bottom: 24px;">
-          I keep my downtime creative. You will likely find me getting inspired by shows like Abstract, or tuning into Sticky Notes and The Futur to keep my design mind sharp.
+          {outsideDescription}
         </p>
         <div class="outside-thumbnails">
-          <div class="outside-thumb bg-blue-700">
-            <img src="/images/thefutur.jpg" alt="The Futur" class="w-full h-full object-cover" loading="lazy" />
-          </div>
-          <div class="outside-thumb bg-red-500">
-            <img src="/images/stickynotes.jpg" alt="Sticky Notes" class="w-full h-full object-cover" loading="lazy" />
-          </div>
+          {outsideThumbnails.map((thumb, i) => (
+            <div class={`outside-thumb ${i === 0 ? 'bg-blue-700' : 'bg-red-500'}`}>
+              <img src={thumb.src} alt={thumb.alt} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -113,7 +156,7 @@ import Layout from '../layouts/Layout.astro';
     <section class="two-col-section" style="margin-bottom: 48px;">
       <h2 class="two-col-heading font-serif text-neutral-900">How I work</h2>
       <p class="text-sm text-neutral-500 leading-relaxed">
-        I start by finding the real problem so I can build the best solution. I focus on making systems that are simple and built to last. I always try to improve my work and tools to make things run smoothly. Finally, I stay curious by looking at art and stories to find new ideas for my projects.
+        {howIWorkDescription}
       </p>
     </section>
 
@@ -122,16 +165,16 @@ import Layout from '../layouts/Layout.astro';
       <h2 class="two-col-heading font-serif text-neutral-900">Say hi.</h2>
       <div>
         <p class="text-sm text-neutral-500 leading-relaxed" style="margin-bottom: 24px;">
-          I'm currently taking on one new project for Q3 2026 — and always happy to swap notes on systems, tokens, or what to lift on a Tuesday. The fastest way is email.
+          {sayHiDescription}
         </p>
         <div class="contact-cards">
-          <a href="mailto:jospecial34@gmail.com" class="contact-card">
+          <a href={`mailto:${email}`} class="contact-card">
             <span class="contact-label">Email</span>
-            <span class="contact-value">jospecial34@gmail.com</span>
+            <span class="contact-value">{email}</span>
           </a>
           <div class="contact-card">
             <span class="contact-label">Phone number</span>
-            <span class="contact-value">+234 816 9203 595</span>
+            <span class="contact-value">{phone}</span>
           </div>
         </div>
       </div>
@@ -327,4 +370,3 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 </style>
-

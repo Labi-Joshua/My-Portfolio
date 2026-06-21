@@ -18,7 +18,7 @@ if (!project) return Astro.redirect('/404');
 
   <!-- Product preview hero — bleeds under sticky nav -->
   {project.previewImages?.length > 0 && (
-    <div id="preview-hero" class="w-full aspect-[16/7] overflow-hidden bg-card" style="margin-top: -57px;">
+    <div id="preview-hero" class="preview-hero-img-wrap w-full aspect-[16/7] overflow-hidden bg-card">
       <img
         id="preview-hero-img"
         src={project.previewImages[0].src}
@@ -180,6 +180,15 @@ if (!project) return Astro.redirect('/404');
 </Layout>
 
 <style>
+  .preview-hero-img-wrap {
+    margin-top: -57px;
+  }
+  @media (max-width: 767px) {
+    .preview-hero-img-wrap {
+      margin-top: 0;
+    }
+  }
+
   .visit-btn {
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
