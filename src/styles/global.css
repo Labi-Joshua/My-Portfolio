@@ -9,8 +9,9 @@
   --color-card: #F2F2F2;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
+  cursor: none !important;
 }
 
 .card-hover {
