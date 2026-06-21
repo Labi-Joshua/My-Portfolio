@@ -52,7 +52,7 @@ if (!project) return Astro.redirect('/404');
       <!-- Green info card -->
       <div class="bg-green rounded-2xl p-6 text-white">
         <h2 class="font-serif text-2xl font-normal leading-snug whitespace-pre-line" style="color: #F3F5F0;">{project.title}</h2>
-        <p class="text-sm text-white/75 mt-2 leading-relaxed">A technical definition of the project.</p>
+        {project.description && <p class="text-sm text-white/75 mt-2 leading-relaxed">{project.description}</p>}
         {project.websiteUrl && (
           <a
             href={project.websiteUrl}
