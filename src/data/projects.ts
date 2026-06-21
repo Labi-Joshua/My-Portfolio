@@ -16,6 +16,7 @@ export interface CaseStudy {
   sections: {
     heading: string;
     body: string;
+    showQuoteAfter?: boolean;
     images?: { src: string; alt: string; caption?: string }[];
   }[];
   testimonial?: {
@@ -23,7 +24,6 @@ export interface CaseStudy {
     author: string;
     authorRole: string;
     company: string;
-    displayAfterSection?: string;
   };
 }
 
@@ -57,6 +57,7 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
       "sections": sections[]{
         heading,
         body,
+        showQuoteAfter,
         "images": images[]{
           "src": asset->url,
           "alt": alt,
