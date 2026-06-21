@@ -10,6 +10,7 @@ interface Props {
   description?: string;
   showCTA?: boolean;
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: 'website' | 'article';
   socialLinks?: string[];
 }
@@ -19,6 +20,7 @@ const {
   description = 'Labi Joshua is a Product Designer who builds systems to solve complex problems.',
   showCTA = true,
   ogImage,
+  ogImageAlt,
   ogType = 'website',
   socialLinks = [],
 } = Astro.props;
@@ -72,9 +74,13 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/png" href="/favicon.ico.png" />
     <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#51782B" />
+
+    <!-- Font preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Primary -->
     <title>{title}</title>
@@ -90,6 +96,7 @@ const jsonLd = {
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt || description} />
     <meta property="og:site_name" content="Labi Joshua" />
     <meta property="og:locale" content="en_US" />
 
@@ -98,9 +105,13 @@ const jsonLd = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt || description} />
 
     <!-- JSON-LD structured data -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Per-page head slot (additional structured data etc.) -->
+    <slot name="head" />
   </head>
   <body class="bg-white text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
     <Nav />

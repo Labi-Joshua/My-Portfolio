@@ -7,14 +7,34 @@ const caseStudies = await getCaseStudies();
 const project = caseStudies.find(p => p.slug === slug);
 
 if (!project) return Astro.redirect('/404');
+
+const projectTitle = project.title.replace('\n', ' ');
+const projectDescription = project.description || project.tags;
+
+const creativeWorkJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: projectTitle,
+  description: projectDescription,
+  creator: {
+    '@type': 'Person',
+    name: 'Labi Joshua',
+    url: 'https://labijoshua.com',
+  },
+  image: project.coverImage,
+  url: `https://labijoshua.com/work/${project.slug}`,
+  ...(project.websiteUrl ? { mainEntityOfPage: project.websiteUrl } : {}),
+};
 ---
 
 <Layout
-  title={`${project.title.replace('\n', ' ')} — Joshua Owolabi`}
-  description={project.tags}
+  title={`${projectTitle} — Joshua Owolabi`}
+  description={projectDescription}
   ogImage={project.coverImage}
-  ogType="website"
+  ogImageAlt={project.coverAlt}
+  ogType="article"
 >
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(creativeWorkJsonLd)} />
 
   <!-- Product preview hero — bleeds under sticky nav -->
   {project.previewImages?.length > 0 && (
