@@ -23,6 +23,7 @@ if (!project) return Astro.redirect('/404');
         id="preview-hero-img"
         src={project.previewImages[0].src}
         alt={project.previewImages[0].alt}
+        data-cursor-label={project.title.replace('\n', ' ')}
         class="w-full h-full object-cover"
         style="transform: scale(1.08); transition: transform 0.08s ease-out; will-change: transform;"
         loading="eager"
@@ -32,97 +33,16 @@ if (!project) return Astro.redirect('/404');
 
   <script is:inline>
     (function () {
-      const hero = document.getElementById('preview-hero');
-      const img  = document.getElementById('preview-hero-img');
+      var hero = document.getElementById('preview-hero');
+      var img  = document.getElementById('preview-hero-img');
       if (!hero || !img) return;
-
-      /* Inject spin keyframe */
-      const styleEl = document.createElement('style');
-      styleEl.textContent = '@keyframes cursor-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}';
-      document.head.appendChild(styleEl);
-
-      /* Cursor wrapper — zero-size anchor point */
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'position:fixed;pointer-events:none;z-index:9999;width:0;height:0;opacity:0;transition:opacity 0.2s;';
-
-      /* Rotating dashed ring */
-      const ring = document.createElement('div');
-      ring.style.cssText = [
-        'position:absolute',
-        'width:22px','height:22px',
-        'border-radius:50%',
-        'border:1.5px dashed #51782B',
-        'transform:translate(-50%,-50%) rotate(0deg)',
-        'animation:cursor-spin 2.5s linear infinite',
-        'transition:border-color 0.12s ease',
-      ].join(';');
-
-      /* Small filled dot */
-      const dot = document.createElement('div');
-      dot.style.cssText = [
-        'position:absolute',
-        'width:5px','height:5px',
-        'border-radius:50%',
-        'background:#51782B',
-        'transform:translate(-50%,-50%)',
-        'transition:background 0.12s ease',
-      ].join(';');
-
-      wrap.appendChild(ring);
-      wrap.appendChild(dot);
-      document.body.appendChild(wrap);
-
-      /* Canvas for pixel colour sampling */
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      var canvasReady = false;
-
-      function initCanvas() {
-        try {
-          canvas.width  = 120;
-          canvas.height = Math.round(120 * img.naturalHeight / img.naturalWidth) || 68;
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvasReady = true;
-        } catch(e) { canvasReady = false; }
-      }
-
-      if (img.complete && img.naturalWidth) { initCanvas(); }
-      else { img.addEventListener('load', initCanvas); }
-
-      function sampleColor(e, rect) {
-        if (!canvasReady) return null;
-        try {
-          var x = Math.floor((e.clientX - rect.left) / rect.width  * canvas.width);
-          var y = Math.floor((e.clientY - rect.top)  / rect.height * canvas.height);
-          var px = ctx.getImageData(Math.max(0,x), Math.max(0,y), 1, 1).data;
-          return 'rgb('+px[0]+','+px[1]+','+px[2]+')';
-        } catch(e) { return null; }
-      }
-
-      hero.style.cursor = 'none';
-
-      hero.addEventListener('mouseenter', function () {
-        wrap.style.opacity = '1';
-      });
-
       hero.addEventListener('mousemove', function (e) {
-        wrap.style.left = e.clientX + 'px';
-        wrap.style.top  = e.clientY + 'px';
-
-        var rect  = hero.getBoundingClientRect();
-        var color = sampleColor(e, rect);
-        if (color) {
-          ring.style.borderColor = color;
-          dot.style.background   = color;
-        }
-
+        var rect = hero.getBoundingClientRect();
         var x = (e.clientX - rect.left) / rect.width  - 0.5;
         var y = (e.clientY - rect.top)  / rect.height - 0.5;
         img.style.transform = 'scale(1.08) translate('+(x*18)+'px,'+(y*10)+'px)';
       });
-
       hero.addEventListener('mouseleave', function () {
-        wrap.style.opacity = '0';
         img.style.transition = 'transform 0.4s ease-out';
         img.style.transform  = 'scale(1.08) translate(0px,0px)';
         setTimeout(function () { img.style.transition = 'transform 0.08s ease-out'; }, 400);

@@ -115,4 +115,76 @@ const jsonLd = {
       linkedinUrl={settings.linkedinUrl}
     />
   </body>
+
+  <script is:inline>
+    (function () {
+      var s = document.createElement('style');
+      s.textContent = '@keyframes cursor-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes cursor-pulse{0%,100%{width:18px;height:18px}50%{width:30px;height:30px}}';
+      document.head.appendChild(s);
+
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'position:fixed;pointer-events:none;z-index:9999;width:0;height:0;opacity:0;transition:opacity 0.2s;';
+
+      var ring = document.createElement('div');
+      ring.style.cssText = 'position:absolute;width:22px;height:22px;border-radius:50%;border:1.5px dashed #51782B;transform:translate(-50%,-50%);animation:cursor-spin 2.5s linear infinite,cursor-pulse 1.4s ease-in-out infinite;';
+
+      var dot = document.createElement('div');
+      dot.style.cssText = 'position:absolute;width:5px;height:5px;border-radius:50%;background:#51782B;transform:translate(-50%,-50%);';
+
+      wrap.appendChild(ring);
+      wrap.appendChild(dot);
+      document.body.appendChild(wrap);
+
+      var label = document.createElement('div');
+      label.style.cssText = 'position:fixed;pointer-events:none;z-index:9998;font-family:"Instrument Sans",sans-serif;font-size:14px;color:#1a1a1a;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:5px 13px;border-radius:100px;white-space:nowrap;opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;top:0;left:0;';
+      document.body.appendChild(label);
+
+      var lx = 0, ly = 0, tx = 0, ty = 0, rafId = null, active = false;
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function tick() {
+        lx = lerp(lx, tx, 0.12);
+        ly = lerp(ly, ty, 0.12);
+        label.style.left = lx + 'px';
+        label.style.top  = ly + 'px';
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function show(img) {
+        var text = img.dataset.cursorLabel || img.alt || '';
+        label.textContent = text;
+        label.style.display = text ? 'block' : 'none';
+        wrap.style.opacity = '1';
+        label.style.opacity = '1';
+        label.style.transform = 'translateY(0)';
+        img.style.cursor = 'none';
+        active = true;
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      }
+
+      function hide(img) {
+        wrap.style.opacity = '0';
+        label.style.opacity = '0';
+        label.style.transform = 'translateY(6px)';
+        if (img) img.style.cursor = '';
+        active = false;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+
+      document.addEventListener('mousemove', function (e) {
+        var el = e.target;
+        if (el.tagName === 'IMG') {
+          if (!active) show(el);
+          wrap.style.left = e.clientX + 'px';
+          wrap.style.top  = e.clientY + 'px';
+          tx = e.clientX + 20;
+          ty = e.clientY + 20;
+        } else if (active) {
+          hide(null);
+        }
+      });
+
+      document.addEventListener('mouseleave', function () { hide(null); });
+    })();
+  </script>
 </html>
