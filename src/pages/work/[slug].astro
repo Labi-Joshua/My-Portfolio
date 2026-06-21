@@ -16,9 +16,9 @@ if (!project) return Astro.redirect('/404');
   ogType="website"
 >
 
-  <!-- Product preview hero — full bleed -->
+  <!-- Product preview hero — bleeds under sticky nav -->
   {project.previewImages?.length > 0 && (
-    <div class="w-full aspect-[16/7] overflow-hidden bg-card">
+    <div class="w-full aspect-[16/7] overflow-hidden bg-card" style="margin-top: -57px;">
       <img
         src={project.previewImages[0].src}
         alt={project.previewImages[0].alt}
