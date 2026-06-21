@@ -23,6 +23,7 @@ export interface CaseStudy {
     author: string;
     authorRole: string;
     company: string;
+    displayAfterSection?: string;
   };
 }
 

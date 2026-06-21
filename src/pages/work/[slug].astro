@@ -102,7 +102,7 @@ if (!project) return Astro.redirect('/404');
 
     <!-- Right content -->
     <div class="flex flex-col gap-14">
-      {project.sections?.map((section, si) => (
+      {project.sections?.map((section) => (
         <div class="flex flex-col gap-5">
           <h3 class="text-2xl font-serif font-medium text-neutral-900">{section.heading}</h3>
           <p class="text-neutral-600 leading-relaxed text-base">{section.body}</p>
@@ -128,7 +128,7 @@ if (!project) return Astro.redirect('/404');
           )}
 
           {/* Testimonial card — injected after "The Solution" section */}
-          {project.testimonial && section.heading === 'The Solution' && (
+          {project.testimonial && project.testimonial.displayAfterSection === section.heading && (
             <div class="bg-green rounded-2xl p-8 text-white mt-4">
               <p class="text-base leading-relaxed font-medium italic">{project.testimonial.quote}</p>
               <div class="mt-6 flex items-center justify-between">
