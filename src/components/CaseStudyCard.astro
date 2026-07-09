@@ -10,6 +10,9 @@ interface Props {
 }
 
 const { slug, title, description, tags, coverImage, coverAlt, index } = Astro.props;
+
+const isGif = /\.gif(\?|$)/i.test(coverImage);
+const staticFrame = isGif ? `${coverImage}${coverImage.includes('?') ? '&' : '?'}fm=jpg` : coverImage;
 ---
 
 <a
@@ -29,24 +32,42 @@ const { slug, title, description, tags, coverImage, coverAlt, index } = Astro.pr
   </div>
 
   <!-- Image: mobile only (bottom, ExperimentCard style) -->
-  <div class="md:hidden mx-3 mb-3 mt-4 rounded-2xl overflow-hidden h-[214px]">
+  <div class="md:hidden mx-3 mb-3 mt-4 rounded-2xl overflow-hidden h-[214px] relative">
     <img
       src={coverImage}
       alt={coverAlt}
       class="w-full h-full object-cover object-top"
       loading={index === 0 ? 'eager' : 'lazy'}
     />
+    {isGif && (
+      <img
+        src={staticFrame}
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none transition-opacity duration-300 group-hover:opacity-0"
+        loading={index === 0 ? 'eager' : 'lazy'}
+      />
+    )}
   </div>
 
   <!-- Image: tablet and above (right side, responsive) -->
-  <div class="hidden md:block shrink-0" style="width: 50%; padding: 12px 12px 12px 0;">
-    <div style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 16px;">
+  <div class="hidden md:block shrink-0 self-start" style="width: 50%; padding: 12px 12px 12px 0;">
+    <div class="relative" style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 16px;">
       <img
         src={coverImage}
         alt={coverAlt}
         class="w-full h-full object-cover object-top"
         loading={index === 0 ? 'eager' : 'lazy'}
       />
+      {isGif && (
+        <img
+          src={staticFrame}
+          alt=""
+          aria-hidden="true"
+          class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none transition-opacity duration-300 group-hover:opacity-0"
+          loading={index === 0 ? 'eager' : 'lazy'}
+        />
+      )}
     </div>
   </div>
 </a>

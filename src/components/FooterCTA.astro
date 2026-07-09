@@ -2,11 +2,13 @@
 interface Props {
   heading?: string;
   contactHref?: string;
+  color?: string;
 }
 
 const {
   heading = 'Take your designs to new dimensions',
   contactHref = 'mailto:hello@joshuaowolabi.com',
+  color,
 } = Astro.props;
 ---
 
@@ -17,7 +19,8 @@ const {
     </h2>
     <a
       href={contactHref}
-      class="bg-green-dark text-white text-sm font-medium rounded-full px-7 py-3.5 hover:opacity-90 transition-opacity shrink-0"
+      class={`text-white text-sm font-medium rounded-full px-7 py-3.5 hover:opacity-90 transition-opacity shrink-0 ${color ? '' : 'bg-green-dark'}`}
+      style={color ? `background-color: ${color};` : undefined}
     >
       Get in touch with me
     </a>

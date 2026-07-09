@@ -10,6 +10,10 @@ if (!project) return Astro.redirect('/404');
 
 const projectTitle = project.title.replace('\n', ' ');
 const projectDescription = project.description || project.tags;
+const rawCardColor = project.cardColor?.trim();
+const cardColor = rawCardColor
+  ? (rawCardColor.startsWith('#') ? rawCardColor : `#${rawCardColor}`)
+  : '#3D5A20';
 
 const creativeWorkJsonLd = {
   '@context': 'https://schema.org',
@@ -33,6 +37,7 @@ const creativeWorkJsonLd = {
   ogImage={project.coverImage}
   ogImageAlt={project.coverAlt}
   ogType="article"
+  ctaColor={cardColor}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(creativeWorkJsonLd)} />
 
@@ -91,8 +96,8 @@ const creativeWorkJsonLd = {
     <!-- Left sidebar -->
     <aside class="lg:sticky lg:top-[116px] flex flex-col gap-6">
 
-      <!-- Green info card -->
-      <div class="bg-green rounded-2xl p-6 text-white">
+      <!-- Info card — background color set per-project in Sanity (cardColor) -->
+      <div class="rounded-2xl p-6 text-white" style={`background-color: ${cardColor};`}>
         <h2 class="font-serif text-2xl font-normal leading-snug whitespace-pre-line" style="color: #F3F5F0;">{project.title}</h2>
         {project.description && <p class="text-sm text-white/75 mt-2 leading-relaxed">{project.description}</p>}
         {project.websiteUrl && (
@@ -101,7 +106,7 @@ const creativeWorkJsonLd = {
             target="_blank"
             rel="noopener noreferrer"
             class="visit-btn mt-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-medium w-full"
-            style="background-color: #F7F7F7; color: #3D5A20;"
+            style={`background-color: #F7F7F7; color: ${cardColor};`}
           >
             Visit Website
             <span class="btn-arrow-wrap">
@@ -180,7 +185,7 @@ const creativeWorkJsonLd = {
 
           {/* Testimonial card — injected after "The Solution" section */}
           {project.testimonial && section.showQuoteAfter && (
-            <div class="bg-green rounded-2xl p-8 text-white mt-4">
+            <div class="rounded-2xl p-8 text-white mt-4" style={`background-color: ${cardColor};`}>
               <p class="text-base leading-relaxed font-medium italic">{project.testimonial.quote}</p>
               <div class="mt-6 flex items-center justify-between">
                 <div>

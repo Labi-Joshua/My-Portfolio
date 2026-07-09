@@ -13,6 +13,7 @@ interface Props {
   ogImageAlt?: string;
   ogType?: 'website' | 'article';
   socialLinks?: string[];
+  ctaColor?: string;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   ogImageAlt,
   ogType = 'website',
   socialLinks = [],
+  ctaColor,
 } = Astro.props;
 
 const settings = await getSiteSettings();
@@ -118,12 +120,13 @@ const jsonLd = {
     <main class="flex-1">
       <slot />
     </main>
-    {showCTA && <FooterCTA />}
+    {showCTA && <FooterCTA color={ctaColor} />}
     <Footer
       mediumUrl={settings.mediumUrl}
       twitterUrl={settings.twitterUrl}
       instagramUrl={settings.instagramUrl}
       linkedinUrl={settings.linkedinUrl}
+      color={ctaColor}
     />
   </body>
 

@@ -12,6 +12,7 @@ export interface CaseStudy {
   technicalSpecs: string[];
   status: string;
   websiteUrl?: string;
+  cardColor?: string;
   previewImages: { src: string; alt: string }[];
   sections: {
     heading: string;
@@ -50,6 +51,7 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
       technicalSpecs,
       status,
       websiteUrl,
+      cardColor,
       "previewImages": previewImages[]{
         "src": asset->url,
         "alt": alt
