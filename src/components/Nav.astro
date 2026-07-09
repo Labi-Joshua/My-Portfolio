@@ -1,29 +1,83 @@
 ---
 const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home', active: currentPath === '/' },
+  { href: '/articles', label: 'Articles', active: currentPath.startsWith('/articles') },
+  { href: '/about', label: 'About', active: currentPath === '/about' },
+];
 ---
 
-<header class="sticky top-0 z-50 py-5 px-6 backdrop-blur-xl" style="background: rgba(255,255,255,0.15); border-bottom: 1px solid rgba(255,255,255,0.2);">
-  <nav class="flex items-center justify-center gap-10 text-sm">
-    <a
-      href="/"
-      class={currentPath === '/' ? 'font-medium' : 'text-neutral-700 hover:text-neutral-900 transition-colors'}
-      style={currentPath === '/' ? 'color: #51782B;' : ''}
-    >
-      Home
-    </a>
-    <a
-      href="/articles"
-      class={currentPath.startsWith('/articles') ? 'font-medium' : 'text-neutral-700 hover:text-neutral-900 transition-colors'}
-      style={currentPath.startsWith('/articles') ? 'color: #51782B;' : ''}
-    >
-      Articles
-    </a>
-    <a
-      href="/about"
-      class={currentPath === '/about' ? 'font-medium' : 'text-neutral-700 hover:text-neutral-900 transition-colors'}
-      style={currentPath === '/about' ? 'color: #51782B;' : ''}
-    >
-      About
-    </a>
+<header class="sticky top-0 z-50 md:py-5 md:px-6 md:backdrop-blur-xl md:bg-[rgba(255,255,255,0.15)] md:border-b md:border-[rgba(255,255,255,0.2)]">
+  <!-- Desktop links -->
+  <nav class="hidden md:flex items-center justify-center gap-10 text-sm">
+    {links.map(link => (
+      <a
+        href={link.href}
+        class={link.active ? 'font-medium' : 'text-neutral-700 hover:text-neutral-900 transition-colors'}
+        style={link.active ? 'color: #51782B;' : ''}
+      >
+        {link.label}
+      </a>
+    ))}
   </nav>
+
+  <!-- Mobile hamburger toggle -->
+  <button
+    id="nav-toggle"
+    type="button"
+    class="md:hidden fixed top-5 right-6 z-[60] flex items-center gap-1 rounded-full bg-black/25 backdrop-blur-lg border border-white/20 shadow-lg p-1.5 text-white text-sm font-medium hover:bg-black/35 transition-colors"
+    aria-label="Toggle menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+  >
+    <span class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 shrink-0">
+      <svg id="nav-icon-open" width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <rect y="0" width="16" height="2.2" rx="1.1" fill="white"/>
+        <rect y="4.9" width="16" height="2.2" rx="1.1" fill="white"/>
+        <rect y="9.8" width="16" height="2.2" rx="1.1" fill="white"/>
+      </svg>
+      <svg id="nav-icon-close" width="16" height="16" viewBox="0 0 16 16" fill="none" style="display: none;">
+        <rect x="0.4" y="6.9" width="16" height="2.2" rx="1.1" fill="white" transform="rotate(-45 8 8)"/>
+        <rect x="0.4" y="6.9" width="16" height="2.2" rx="1.1" fill="white" transform="rotate(45 8 8)"/>
+      </svg>
+    </span>
+    <span class="pr-4 whitespace-nowrap">Menu</span>
+  </button>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden flex-col items-center gap-4 py-5 px-6 text-sm backdrop-blur-xl"
+    style="background: rgba(255,255,255,0.85); border-bottom: 1px solid rgba(255,255,255,0.2);"
+  >
+    {links.map(link => (
+      <a
+        href={link.href}
+        class={link.active ? 'font-medium' : 'text-neutral-700 hover:text-neutral-900 transition-colors'}
+        style={link.active ? 'color: #51782B;' : ''}
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
 </header>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('nav-toggle');
+    var menu = document.getElementById('mobile-menu');
+    var iconOpen = document.getElementById('nav-icon-open');
+    var iconClose = document.getElementById('nav-icon-close');
+    if (!btn || !menu) return;
+
+    btn.addEventListener('click', function () {
+      var isOpen = menu.classList.contains('flex');
+      menu.classList.toggle('flex', !isOpen);
+      menu.classList.toggle('hidden', isOpen);
+      iconOpen.style.display = isOpen ? '' : 'none';
+      iconClose.style.display = isOpen ? 'none' : '';
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  })();
+</script>

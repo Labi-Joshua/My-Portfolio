@@ -38,41 +38,58 @@ const creativeWorkJsonLd = {
   ogImageAlt={project.coverAlt}
   ogType="article"
   ctaColor={cardColor}
+  showNav={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(creativeWorkJsonLd)} />
 
-  <!-- Product preview hero — bleeds under sticky nav -->
-  {project.previewImages?.length > 0 && (
-    <div class="preview-hero-img-wrap w-full aspect-[16/7] overflow-hidden bg-card">
-      <img
-        src={project.previewImages[0].src}
-        alt={project.previewImages[0].alt}
-        class="w-full h-full object-cover"
-        loading="eager"
-      />
-    </div>
-  )}
-
-  <!-- Go back -->
-  <div class="sticky top-[57px] z-40 bg-white/90 backdrop-blur-sm">
-  <div class="px-6 py-4 max-w-[1100px] mx-auto">
+  <!-- Go back: fixed pill, hovering inside the hero image, aligned to the max-width container -->
+  <div class="fixed top-5 md:top-6 inset-x-0 z-[60] px-6 max-w-[1100px] mx-auto w-full flex justify-end pointer-events-none">
     <a
       href="/"
-      class="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
+      class="pointer-events-auto flex items-center gap-1 rounded-full bg-black/25 backdrop-blur-lg border border-white/20 shadow-lg p-1.5 m-4 text-white text-sm font-medium hover:bg-black/35 transition-colors"
     >
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M12 7H2M2 7L6 3M2 7L6 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Go Back
+      <span class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 shrink-0">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M12 7H2M2 7L6 3M2 7L6 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="pr-4 whitespace-nowrap">Go Back</span>
     </a>
   </div>
-  </div>
 
-  <!-- Two-column layout -->
-  <div class="px-6 pb-20 max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-[348px_1fr] gap-10 lg:gap-16 items-start">
+  <div class="flex flex-col gap-9 pt-16 pb-20">
+
+    <!-- Product preview hero — framed mockup card(s) on a light background -->
+    {project.previewImages?.length > 0 && (
+      <section class="px-6 max-w-[1100px] mx-auto w-full">
+        <div class="relative w-full rounded-3xl bg-card overflow-hidden" style="aspect-ratio: 2.6 / 1; min-height: 224px;">
+          {project.previewImages[1] && (
+            <div class="absolute rounded-xl overflow-hidden shadow-lg bg-white" style="width: 55%; right: 4%; top: 20%; z-index: 1;">
+              <img src={project.previewImages[1].src} alt="" class="w-full h-full object-cover" loading="eager" />
+            </div>
+          )}
+          <div
+            class="absolute overflow-hidden bg-white"
+            style={project.previewImages[1]
+              ? 'width: 58%; left: 6%; top: 28%; z-index: 2; border-radius: 0.75rem; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);'
+              : 'inset: 0; z-index: 2;'}
+          >
+            <img
+              src={project.previewImages[0].src}
+              alt={project.previewImages[0].alt}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Two-column layout -->
+    <div class="px-6 max-w-[1100px] mx-auto w-full grid grid-cols-1 md:grid-cols-[348px_1fr] gap-10 md:gap-16 items-start">
 
     <!-- Left sidebar -->
-    <aside class="lg:sticky lg:top-[116px] flex flex-col gap-6">
+    <aside class="md:sticky md:top-6 flex flex-col gap-6">
 
       <!-- Info card — background color set per-project in Sanity (cardColor) -->
       <div class="rounded-2xl p-6 text-white" style={`background-color: ${cardColor};`}>
@@ -83,7 +100,7 @@ const creativeWorkJsonLd = {
             href={project.websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="visit-btn mt-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-medium w-full"
+            class="visit-btn mt-5 flex items-center justify-center gap-2 rounded-full px-4 py-4 text-sm font-medium w-full"
             style={`background-color: #F7F7F7; color: ${cardColor};`}
           >
             Visit Website
@@ -180,17 +197,11 @@ const creativeWorkJsonLd = {
 
   </div>
 
+  </div>
+
 </Layout>
 
 <style>
-  .preview-hero-img-wrap {
-    margin-top: -57px;
-  }
-  @media (max-width: 767px) {
-    .preview-hero-img-wrap {
-      margin-top: 0;
-    }
-  }
 
   .visit-btn {
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);

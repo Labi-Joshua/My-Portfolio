@@ -9,6 +9,7 @@ interface Props {
   title: string;
   description?: string;
   showCTA?: boolean;
+  showNav?: boolean;
   ogImage?: string;
   ogImageAlt?: string;
   ogType?: 'website' | 'article';
@@ -20,6 +21,7 @@ const {
   title,
   description = 'Labi Joshua is a Product Designer who builds systems to solve complex problems.',
   showCTA = true,
+  showNav = true,
   ogImage,
   ogImageAlt,
   ogType = 'website',
@@ -116,7 +118,7 @@ const jsonLd = {
     <slot name="head" />
   </head>
   <body class="bg-white text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
-    <Nav />
+    {showNav && <Nav />}
     <main class="flex-1">
       <slot />
     </main>
