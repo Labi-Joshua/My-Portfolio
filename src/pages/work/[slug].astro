@@ -43,37 +43,15 @@ const creativeWorkJsonLd = {
 
   <!-- Product preview hero — bleeds under sticky nav -->
   {project.previewImages?.length > 0 && (
-    <div id="preview-hero" class="preview-hero-img-wrap w-full aspect-[16/7] overflow-hidden bg-card">
+    <div class="preview-hero-img-wrap w-full aspect-[16/7] overflow-hidden bg-card">
       <img
-        id="preview-hero-img"
         src={project.previewImages[0].src}
         alt={project.previewImages[0].alt}
-        data-cursor-label={project.title.replace('\n', ' ')}
         class="w-full h-full object-cover"
-        style="transform: scale(1.08); transition: transform 0.08s ease-out; will-change: transform;"
         loading="eager"
       />
     </div>
   )}
-
-  <script is:inline>
-    (function () {
-      var hero = document.getElementById('preview-hero');
-      var img  = document.getElementById('preview-hero-img');
-      if (!hero || !img) return;
-      hero.addEventListener('mousemove', function (e) {
-        var rect = hero.getBoundingClientRect();
-        var x = (e.clientX - rect.left) / rect.width  - 0.5;
-        var y = (e.clientY - rect.top)  / rect.height - 0.5;
-        img.style.transform = 'scale(1.08) translate('+(x*18)+'px,'+(y*10)+'px)';
-      });
-      hero.addEventListener('mouseleave', function () {
-        img.style.transition = 'transform 0.4s ease-out';
-        img.style.transform  = 'scale(1.08) translate(0px,0px)';
-        setTimeout(function () { img.style.transition = 'transform 0.08s ease-out'; }, 400);
-      });
-    })();
-  </script>
 
   <!-- Go back -->
   <div class="sticky top-[57px] z-40 bg-white/90 backdrop-blur-sm">
