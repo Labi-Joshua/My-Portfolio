@@ -89,9 +89,9 @@ const creativeWorkJsonLd = {
     <div class="px-6 max-w-[1100px] mx-auto w-full grid grid-cols-1 md:grid-cols-[348px_1fr] gap-10 md:gap-16 items-start">
 
     <!-- Left sidebar -->
-    <aside class="md:sticky md:top-6 flex flex-col gap-6">
+    <aside class="hidden md:flex md:sticky md:top-6 flex-col gap-6">
 
-      <!-- Info card — background color set per-project in Sanity (cardColor) -->
+      <!-- Info card — background color set per-project in Sanity (cardColor); the whole sidebar is hidden on mobile, Visit Website button moves to the bottom of the page there -->
       <div class="rounded-2xl p-6 text-white" style={`background-color: ${cardColor};`}>
         <h2 class="font-serif text-2xl font-normal leading-snug whitespace-pre-line" style="color: #F3F5F0;">{project.title}</h2>
         {project.description && <p class="text-sm text-white/75 mt-2 leading-relaxed">{project.description}</p>}
@@ -196,6 +196,32 @@ const creativeWorkJsonLd = {
     </div>
 
   </div>
+
+  {project.websiteUrl && (
+    <div class="md:hidden px-6 max-w-[1100px] mx-auto w-full">
+      <a
+        href={project.websiteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="visit-btn flex items-center justify-center gap-2 rounded-full px-4 py-4 text-sm font-medium w-full"
+        style={`background-color: ${cardColor}; color: #F7F7F7;`}
+      >
+        Visit Website
+        <span class="btn-arrow-wrap">
+          <span class="btn-arrow-out">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="btn-arrow-in">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+      </a>
+    </div>
+  )}
 
   </div>
 
