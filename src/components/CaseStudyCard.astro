@@ -31,7 +31,7 @@ const staticFrame = isGif ? `${coverImage}${coverImage.includes('?') ? '&' : '?'
     </div>
   </div>
 
-  <!-- Image: mobile only (bottom, ExperimentCard style) -->
+  <!-- Image: mobile only (bottom, ExperimentCard style) — gif animates by default on mobile -->
   <div class="md:hidden mx-3 mb-3 mt-4 rounded-2xl overflow-hidden h-[214px] relative">
     <img
       src={coverImage}
@@ -39,15 +39,6 @@ const staticFrame = isGif ? `${coverImage}${coverImage.includes('?') ? '&' : '?'
       class="w-full h-full object-cover object-top"
       loading={index === 0 ? 'eager' : 'lazy'}
     />
-    {isGif && (
-      <img
-        src={staticFrame}
-        alt=""
-        aria-hidden="true"
-        class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none transition-opacity duration-300 group-hover:opacity-0"
-        loading={index === 0 ? 'eager' : 'lazy'}
-      />
-    )}
   </div>
 
   <!-- Image: tablet and above (right side, responsive) -->
