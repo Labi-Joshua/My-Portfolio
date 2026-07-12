@@ -4,28 +4,32 @@ export interface CaseStudy {
   slug: string;
   title: string;
   description?: string;
-  tags: string;
+  year: string;
+  category?: string;
+  featured?: boolean;
   coverImage: string;
   coverAlt: string;
-  year: string;
-  role: string;
-  technicalSpecs: string[];
-  status: string;
-  websiteUrl?: string;
-  cardColor?: string;
   previewImages: { src: string; alt: string }[];
-  sections: {
-    heading: string;
+  quickStats?: { label: string; value: string }[];
+  challenge?: {
     body: string;
-    showQuoteAfter?: boolean;
+    bullets?: string[];
+  };
+  roleTags?: string[];
+  workedOn?: string[];
+  designShowcase?: {
+    subtitle?: string;
     images?: { src: string; alt: string; caption?: string }[];
-  }[];
-  testimonial?: {
+  };
+  solution?: string;
+  outcome?: {
+    body: string;
     quote: string;
     author: string;
     authorRole: string;
-    company: string;
   };
+  websiteUrl?: string;
+  appStoreUrl?: string;
 }
 
 export interface Experiment {
@@ -43,30 +47,31 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
       "slug": slug.current,
       title,
       description,
-      tags,
+      year,
+      category,
+      featured,
       "coverImage": coverImage.asset->url,
       coverAlt,
-      year,
-      role,
-      technicalSpecs,
-      status,
-      websiteUrl,
-      cardColor,
       "previewImages": previewImages[]{
         "src": asset->url,
         "alt": alt
       },
-      "sections": sections[]{
-        heading,
-        body,
-        showQuoteAfter,
+      quickStats,
+      challenge,
+      roleTags,
+      workedOn,
+      "designShowcase": designShowcase{
+        subtitle,
         "images": images[]{
           "src": asset->url,
           "alt": alt,
           caption
         }
       },
-      testimonial
+      solution,
+      outcome,
+      websiteUrl,
+      appStoreUrl
     }
   `)
 }

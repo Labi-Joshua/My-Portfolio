@@ -1,19 +1,21 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCaseStudies } from '../../data/projects';
+import { getSiteSettings } from '../../data/settings';
 
 const { slug } = Astro.params;
-const caseStudies = await getCaseStudies();
+const [caseStudies, settings] = await Promise.all([getCaseStudies(), getSiteSettings()]);
 const project = caseStudies.find(p => p.slug === slug);
 
 if (!project) return Astro.redirect('/404');
 
 const projectTitle = project.title.replace('\n', ' ');
-const projectDescription = project.description || project.tags;
-const rawCardColor = project.cardColor?.trim();
-const cardColor = rawCardColor
-  ? (rawCardColor.startsWith('#') ? rawCardColor : `#${rawCardColor}`)
-  : '#3D5A20';
+const projectDescription = project.description;
+
+const projectIndex = caseStudies.findIndex(p => p.slug === project.slug) + 1;
+const indexLabel = String(projectIndex).padStart(2, '0');
+
+const otherCaseStudy = caseStudies.find(p => p.slug !== project.slug);
 
 const creativeWorkJsonLd = {
   '@context': 'https://schema.org',
@@ -37,13 +39,12 @@ const creativeWorkJsonLd = {
   ogImage={project.coverImage}
   ogImageAlt={project.coverAlt}
   ogType="article"
-  ctaColor={cardColor}
   showNav={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(creativeWorkJsonLd)} />
 
-  <!-- Go back: fixed pill, hovering inside the hero image, aligned to the max-width container -->
-  <div class="fixed top-5 md:top-6 inset-x-0 z-[60] px-6 max-w-[1100px] mx-auto w-full flex justify-end pointer-events-none">
+  <!-- Go back: fixed pill, aligned to the max-width container -->
+  <div class="fixed top-5 md:top-6 inset-x-0 z-[60] px-12 max-w-[1100px] mx-auto w-full flex justify-end pointer-events-none">
     <a
       href="/"
       class="pointer-events-auto flex items-center gap-1 rounded-full bg-black/25 backdrop-blur-lg border border-white/20 shadow-lg p-1.5 m-4 text-white text-sm font-medium hover:bg-black/35 transition-colors"
@@ -57,23 +58,63 @@ const creativeWorkJsonLd = {
     </a>
   </div>
 
-  <div class="flex flex-col gap-9 pt-16 pb-20">
+  <div class="flex flex-col gap-16 pt-[124px] pb-20 px-12 max-w-[1100px] mx-auto w-full">
 
-    <!-- Product preview hero — framed mockup card(s) on a light background -->
-    {project.previewImages?.length > 0 && (
-      <section class="px-6 max-w-[1100px] mx-auto w-full">
-        <div class="relative w-full rounded-3xl bg-card overflow-hidden" style="aspect-ratio: 2.6 / 1; min-height: 224px;">
-          {project.previewImages[1] && (
-            <div class="absolute rounded-xl overflow-hidden shadow-lg bg-white" style="width: 55%; right: 4%; top: 20%; z-index: 1;">
-              <img src={project.previewImages[1].src} alt="" class="w-full h-full object-cover" loading="eager" />
-            </div>
+    <!-- Intro: eyebrow, title, description, CTAs -->
+    <div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full border border-neutral-300 text-xs text-neutral-600 shrink-0">{indexLabel}</div>
+        <div class="flex flex-col">
+          {project.category && <span class="text-sm font-semibold text-neutral-900">{project.category}</span>}
+          {project.featured && <span class="text-xs text-neutral-400">Featured Case Study</span>}
+        </div>
+      </div>
+
+      <h1 class="font-serif text-3xl md:text-4xl font-normal leading-snug text-neutral-900 whitespace-pre-line mt-6">{project.title}</h1>
+      {projectDescription && <p class="text-neutral-500 leading-relaxed mt-3 max-w-2xl">{projectDescription}</p>}
+
+      {(project.websiteUrl || project.appStoreUrl) && (
+        <div class="flex items-center gap-3 mt-6">
+          {project.websiteUrl && (
+            <a
+              href={project.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white px-5 py-3.5 text-sm font-medium"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="shrink-0">
+                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M1.5 7h11M7 1.5c1.4 1.5 2.2 3.5 2.2 5.5S8.4 12.5 7 14c-1.4-1.5-2.2-3.5-2.2-5.5S5.6 3 7 1.5z" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
+              Visit Website
+            </a>
           )}
-          <div
-            class="absolute overflow-hidden bg-white"
-            style={project.previewImages[1]
-              ? 'width: 58%; left: 6%; top: 28%; z-index: 2; border-radius: 0.75rem; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);'
-              : 'inset: 0; z-index: 2;'}
-          >
+          {project.appStoreUrl && (
+            <a
+              href={project.appStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white px-5 py-3.5 text-sm font-medium"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="shrink-0">
+                <path d="M9.5 2.2c.5-.6 1.3-1 2-1 .1.8-.2 1.6-.7 2.2-.5.6-1.3 1-2 .9-.1-.7.2-1.5.7-2.1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+                <path d="M11.7 9.6c-.3.7-.5 1-.9 1.6-.6.9-1.4 2-2.4 2-.9 0-1.2-.6-2.2-.6s-1.3.6-2.2.6c-1 0-1.7-1-2.4-1.9C.4 9.6 0 7.3.9 5.9c.6-1 1.6-1.6 2.5-1.6.9 0 1.5.6 2.2.6s1.4-.7 2.4-.6c.4 0 1.6.2 2.4 1.3-.1.1-1.4.8-1.4 2.3 0 1.8 1.6 2.4 1.7 2.4z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+              </svg>
+              App Store
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+
+    <!-- Hero preview image(s) -->
+    {project.previewImages?.length > 0 && (
+      project.previewImages[1] ? (
+        <div class="relative w-full rounded-3xl bg-card overflow-hidden" style="aspect-ratio: 2.6 / 1; min-height: 224px;">
+          <div class="absolute rounded-xl overflow-hidden shadow-lg bg-white" style="width: 55%; right: 4%; top: 20%; z-index: 1;">
+            <img src={project.previewImages[1].src} alt="" class="w-full h-full object-cover" loading="eager" />
+          </div>
+          <div class="absolute overflow-hidden bg-white" style="width: 58%; left: 6%; top: 28%; z-index: 2; border-radius: 0.75rem; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);">
             <img
               src={project.previewImages[0].src}
               alt={project.previewImages[0].alt}
@@ -82,183 +123,197 @@ const creativeWorkJsonLd = {
             />
           </div>
         </div>
-      </section>
+      ) : (
+        <img
+          src={project.previewImages[0].src}
+          alt={project.previewImages[0].alt}
+          class="w-full h-auto rounded-3xl"
+          loading="eager"
+        />
+      )
     )}
 
-    <!-- Two-column layout -->
-    <div class="px-6 max-w-[1100px] mx-auto w-full grid grid-cols-1 md:grid-cols-[348px_1fr] gap-10 md:gap-16 items-start">
+    <!-- Quick stats -->
+    {project.quickStats?.length > 0 && (
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {project.quickStats.map(stat => (
+          <div class="rounded-2xl bg-card p-6">
+            <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">{stat.label}</p>
+            <p class="text-sm font-semibold text-neutral-900">{stat.value}</p>
+          </div>
+        ))}
+      </div>
+    )}
 
-    <!-- Left sidebar -->
-    <aside class="hidden md:flex md:sticky md:top-6 flex-col gap-6">
+    <!-- The Challenge -->
+    {project.challenge?.body && (
+      <div class="rounded-3xl bg-card p-8 flex flex-col gap-5">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900">
+          <span class="w-2 h-2 rounded-sm bg-orange-500 shrink-0"></span>
+          The Challenge
+        </h3>
+        <p class="text-neutral-900 leading-relaxed text-base">{project.challenge.body}</p>
+        {project.challenge.bullets?.length > 0 && (
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mt-2">
+            {project.challenge.bullets.map(bullet => (
+              <div class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-neutral-300 shrink-0 mt-2"></span>
+                <span class="text-sm text-neutral-500 leading-relaxed">{bullet}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
 
-      <!-- Info card — background color set per-project in Sanity (cardColor); the whole sidebar is hidden on mobile, Visit Website button moves to the bottom of the page there -->
-      <div class="rounded-2xl p-6 text-white" style={`background-color: ${cardColor};`}>
-        <h2 class="font-serif text-2xl font-normal leading-snug whitespace-pre-line" style="color: #F3F5F0;">{project.title}</h2>
-        {project.description && <p class="text-sm text-white/75 mt-2 leading-relaxed">{project.description}</p>}
-        {project.websiteUrl && (
+    <!-- My Role + What I Worked On -->
+    {((project.roleTags?.length ?? 0) > 0 || (project.workedOn?.length ?? 0) > 0) && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {project.roleTags?.length > 0 && (
+          <div class="rounded-2xl bg-card p-6">
+            <h4 class="flex items-center gap-2 text-sm font-medium text-neutral-900 mb-4">
+              <span class="w-2 h-2 rounded-sm bg-green shrink-0"></span>
+              My Role
+            </h4>
+            <div class="flex flex-wrap gap-3">
+              {project.roleTags.map(tag => (
+                <span class="text-sm text-neutral-600 bg-white rounded-full px-5 py-3 border border-neutral-200">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+        {project.workedOn?.length > 0 && (
+          <div class="rounded-2xl bg-card p-6">
+            <h4 class="flex items-center gap-2 text-sm font-medium text-neutral-900 mb-4">
+              <span class="w-2 h-2 rounded-sm bg-blue-500 shrink-0"></span>
+              What I Worked On
+            </h4>
+            <div class="flex flex-col gap-2">
+              {project.workedOn.map(item => (
+                <div class="flex items-start gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-green shrink-0 mt-2"></span>
+                  <span class="text-sm text-neutral-600 leading-relaxed">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- Design Showcase -->
+    {project.designShowcase?.images?.length > 0 && (
+      <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xs font-semibold text-neutral-900 uppercase tracking-widest">Design Showcase</h3>
+          {project.designShowcase.subtitle && <p class="text-neutral-500 leading-relaxed text-sm">{project.designShowcase.subtitle}</p>}
+        </div>
+        <div class="flex flex-col gap-4">
+          {project.designShowcase.images.map(img => (
+            <figure class="rounded-2xl overflow-hidden bg-card">
+              <img src={img.src} alt={img.alt} class="w-full" loading="lazy" />
+              {img.caption && (
+                <figcaption class="flex items-center justify-center gap-1.5 text-xs text-neutral-400 uppercase tracking-widest py-3 px-4">
+                  <span class="w-1 h-1 rounded-full bg-neutral-300 shrink-0"></span>
+                  {img.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- The Solution -->
+    {project.solution && (
+      <div class="flex flex-col gap-2">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900">
+          <span class="w-2 h-2 rounded-sm bg-green shrink-0"></span>
+          The Solution
+        </h3>
+        <p class="text-neutral-500 leading-relaxed text-sm">{project.solution}</p>
+      </div>
+    )}
+
+    <!-- The Outcome (dark card with testimonial) -->
+    {project.outcome?.body && (
+      <div class="rounded-2xl p-8 text-white bg-neutral-900 flex flex-col">
+        <h4 class="flex items-center gap-2 text-xs font-medium text-white/60 uppercase tracking-widest mb-3">
+          <span class="w-2 h-2 rounded-sm bg-orange-500 shrink-0"></span>
+          The Outcome
+        </h4>
+        <p class="text-neutral-300 leading-relaxed mb-6">{project.outcome.body}</p>
+        {project.outcome.quote && (
+          <>
+            <span class="block font-serif text-4xl leading-none text-orange-400 mb-2">"</span>
+            <p class="text-base leading-relaxed font-medium italic">{project.outcome.quote}</p>
+          </>
+        )}
+        {project.outcome.author && (
+          <div class="mt-6">
+            <p class="text-sm font-semibold">{project.outcome.author}</p>
+            {project.outcome.authorRole && <p class="text-xs text-white/50 mt-0.5 tracking-widest">{project.outcome.authorRole}</p>}
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- Mid-page "Book a free call" CTA -->
+    {settings.bookCallUrl && (
+      <div class="rounded-2xl bg-card p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <p class="font-semibold text-neutral-900">Like what you see?</p>
+          <p class="text-sm text-neutral-500 mt-1">Let's talk about building something like this for your business.</p>
+        </div>
+        <div class="flex items-center gap-4 shrink-0">
           <a
-            href={project.websiteUrl}
+            href={settings.bookCallUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="visit-btn mt-5 flex items-center justify-center gap-2 rounded-full px-4 py-4 text-sm font-medium w-full"
-            style={`background-color: #F7F7F7; color: ${cardColor};`}
+            class="bg-neutral-900 text-white text-sm font-medium rounded-full px-6 py-3.5 hover:opacity-90 transition-opacity whitespace-nowrap"
           >
-            Visit Website
-            <span class="btn-arrow-wrap">
-              <span class="btn-arrow-out">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              <span class="btn-arrow-in">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </span>
+            Book a free call
           </a>
-        )}
-      </div>
-
-      <!-- Metadata -->
-      <div class="flex flex-col gap-5 text-sm">
-        <div>
-          <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">Role</p>
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-green shrink-0"></span>
-            <span class="text-neutral-700">{project.role}</span>
-          </div>
-        </div>
-
-        {project.technicalSpecs?.length > 0 && (
-          <div>
-            <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">Technical Specs</p>
-            <div class="flex flex-col gap-1.5">
-              {project.technicalSpecs.map(spec => (
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-green shrink-0"></span>
-                  <span class="text-neutral-700">{spec}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div>
-          <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">Status</p>
-          <span class="text-neutral-900 font-medium">{project.status}</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Right content -->
-    <div class="flex flex-col gap-14">
-      {project.sections?.map((section) => (
-        <div class="flex flex-col gap-5">
-          <h3 class="text-2xl font-serif font-medium text-neutral-900">{section.heading}</h3>
-          <p class="text-neutral-600 leading-relaxed text-base">{section.body}</p>
-
-          {section.images && section.images.length > 0 && (
-            <div class="flex flex-col gap-4 mt-2">
-              {section.images.map(img => (
-                <figure class="rounded-2xl overflow-hidden bg-card">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    class="w-full"
-                    loading="lazy"
-                  />
-                  {img.caption && (
-                    <figcaption class="text-xs text-neutral-400 text-center py-3 px-4">
-                      {img.caption}
-                    </figcaption>
-                  )}
-                </figure>
-              ))}
-            </div>
-          )}
-
-          {/* Testimonial card — injected after "The Solution" section */}
-          {project.testimonial && section.showQuoteAfter && (
-            <div class="rounded-2xl p-8 text-white mt-4" style={`background-color: ${cardColor};`}>
-              <p class="text-base leading-relaxed font-medium italic">{project.testimonial.quote}</p>
-              <div class="mt-6 flex items-center justify-between">
-                <div>
-                  <p class="text-sm font-semibold">{project.testimonial.author}</p>
-                  <p class="text-xs text-white/70 mt-0.5">{project.testimonial.authorRole}</p>
-                </div>
-                <span class="text-xs text-white/50">{project.testimonial.company}</span>
-              </div>
-            </div>
+          {settings.whatsappUrl && (
+            <a
+              href={settings.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-neutral-500 hover:text-neutral-900 transition-colors whitespace-nowrap"
+            >
+              or text me on WhatsApp
+            </a>
           )}
         </div>
-      ))}
-    </div>
+      </div>
+    )}
 
-  </div>
-
-  {project.websiteUrl && (
-    <div class="md:hidden px-6 max-w-[1100px] mx-auto w-full">
-      <a
-        href={project.websiteUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="visit-btn flex items-center justify-center gap-2 rounded-full px-4 py-4 text-sm font-medium w-full"
-        style={`background-color: ${cardColor}; color: #F7F7F7;`}
-      >
-        Visit Website
-        <span class="btn-arrow-wrap">
-          <span class="btn-arrow-out">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span class="btn-arrow-in">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </span>
-      </a>
-    </div>
-  )}
+    <!-- Continue exploring my portfolio -->
+    {otherCaseStudy && (
+      <div class="flex flex-col gap-6">
+        <p class="text-center text-sm text-neutral-400">Continue exploring my portfolio</p>
+        <a href={`/work/${otherCaseStudy.slug}`} class="rounded-3xl overflow-hidden flex flex-col md:flex-row bg-card group">
+          <div class="md:w-1/2 shrink-0 bg-neutral-100 overflow-hidden" style="aspect-ratio: 4 / 3;">
+            <img src={otherCaseStudy.coverImage} alt={otherCaseStudy.coverAlt} class="w-full h-full object-cover" loading="lazy" />
+          </div>
+          <div class="p-8 md:p-10 flex flex-col justify-center gap-3">
+            <div class="flex items-center gap-2 text-xs text-neutral-400 uppercase tracking-widest">
+              {otherCaseStudy.category && <span>{otherCaseStudy.category}</span>}
+              {otherCaseStudy.category && otherCaseStudy.year && <span class="w-1 h-1 rounded-full bg-neutral-300"></span>}
+              {otherCaseStudy.year && <span>{otherCaseStudy.year}</span>}
+            </div>
+            <h3 class="font-serif text-2xl text-neutral-900 leading-snug">{otherCaseStudy.title}</h3>
+            <span class="text-sm text-green font-medium group-hover:gap-2.5 flex items-center gap-1.5 transition-all">
+              Read the case study
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    )}
 
   </div>
 
 </Layout>
-
-<style>
-
-  .visit-btn {
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .visit-btn:active {
-    transform: scale(0.97);
-  }
-  .btn-arrow-wrap {
-    display: inline-flex;
-    position: relative;
-    overflow: hidden;
-    width: 12px;
-    height: 12px;
-  }
-  .btn-arrow-out,
-  .btn-arrow-in {
-    display: inline-flex;
-    position: absolute;
-    top: 0; left: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-  }
-  .btn-arrow-in {
-    transform: translate(-6px, 6px);
-    opacity: 0;
-  }
-  .visit-btn:hover .btn-arrow-out {
-    transform: translate(6px, -6px);
-    opacity: 0;
-  }
-  .visit-btn:hover .btn-arrow-in {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-</style>
