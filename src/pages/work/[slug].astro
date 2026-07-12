@@ -44,7 +44,7 @@ const creativeWorkJsonLd = {
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(creativeWorkJsonLd)} />
 
   <!-- Go back: fixed pill, aligned to the max-width container -->
-  <div class="fixed top-5 md:top-6 inset-x-0 z-[60] px-12 max-w-[1100px] mx-auto w-full flex justify-end pointer-events-none">
+  <div class="fixed top-5 md:top-6 inset-x-0 z-[60] px-6 md:px-12 max-w-[1100px] mx-auto w-full flex justify-end pointer-events-none">
     <a
       href="/"
       class="pointer-events-auto flex items-center gap-1 rounded-full bg-black/25 backdrop-blur-lg border border-white/20 shadow-lg p-1.5 m-4 text-white text-sm font-medium hover:bg-black/35 transition-colors"
@@ -58,7 +58,7 @@ const creativeWorkJsonLd = {
     </a>
   </div>
 
-  <div class="flex flex-col gap-16 pt-[124px] pb-20 px-12 max-w-[1100px] mx-auto w-full">
+  <div class="flex flex-col gap-16 pt-[124px] pb-20 px-6 md:px-12 max-w-[1100px] mx-auto w-full">
 
     <!-- Intro: eyebrow, title, description, CTAs -->
     <div>
@@ -135,7 +135,7 @@ const creativeWorkJsonLd = {
 
     <!-- Quick stats -->
     {project.quickStats?.length > 0 && (
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         {project.quickStats.map(stat => (
           <div class="rounded-2xl bg-card p-6">
             <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">{stat.label}</p>
