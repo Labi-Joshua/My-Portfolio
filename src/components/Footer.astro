@@ -4,7 +4,6 @@ interface Props {
   twitterUrl?: string;
   instagramUrl?: string;
   linkedinUrl?: string;
-  color?: string;
 }
 
 const {
@@ -12,8 +11,9 @@ const {
   twitterUrl = '#',
   instagramUrl = '#',
   linkedinUrl = '#',
-  color = '#51782B',
 } = Astro.props;
+
+const color = '#171717';
 
 const year = new Date().getFullYear();
 ---

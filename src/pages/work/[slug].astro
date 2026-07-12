@@ -135,9 +135,9 @@ const creativeWorkJsonLd = {
 
     <!-- Quick stats -->
     {project.quickStats?.length > 0 && (
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="flex flex-col md:flex-row gap-4">
         {project.quickStats.map(stat => (
-          <div class="rounded-2xl bg-card p-6">
+          <div class="rounded-2xl bg-card p-6 md:flex-1 md:min-w-0">
             <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">{stat.label}</p>
             <p class="text-sm font-semibold text-neutral-900">{stat.value}</p>
           </div>
@@ -226,12 +226,12 @@ const creativeWorkJsonLd = {
 
     <!-- The Solution -->
     {project.solution && (
-      <div class="flex flex-col gap-2">
+      <div class="rounded-3xl bg-card p-8 flex flex-col gap-5">
         <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900">
           <span class="w-2 h-2 rounded-sm bg-green shrink-0"></span>
           The Solution
         </h3>
-        <p class="text-neutral-500 leading-relaxed text-sm">{project.solution}</p>
+        <p class="text-neutral-900 leading-relaxed text-base">{project.solution}</p>
       </div>
     )}
 
@@ -242,11 +242,15 @@ const creativeWorkJsonLd = {
           <span class="w-2 h-2 rounded-sm bg-orange-500 shrink-0"></span>
           The Outcome
         </h4>
-        <p class="text-neutral-300 leading-relaxed mb-6">{project.outcome.body}</p>
+        <p class="text-neutral-300 leading-relaxed mb-6 text-[20px]">{project.outcome.body}</p>
         {project.outcome.quote && (
           <>
-            <span class="block font-serif text-4xl leading-none text-orange-400 mb-2">"</span>
-            <p class="text-base leading-relaxed font-medium italic">{project.outcome.quote}</p>
+            <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 mb-4">
+              <svg width="18" height="18" viewBox="0 0 448 512" fill="currentColor" class="text-orange-500">
+                <path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/>
+              </svg>
+            </span>
+            <p class="text-[20px] leading-relaxed font-medium italic">{project.outcome.quote}</p>
           </>
         )}
         {project.outcome.author && (
