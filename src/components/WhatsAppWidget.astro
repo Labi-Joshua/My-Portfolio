@@ -1,0 +1,227 @@
+---
+interface Props {
+  whatsappUrl?: string;
+  name?: string;
+  greetingName?: string;
+  photoUrl?: string;
+  photoAlt?: string;
+  services?: string[];
+}
+
+const {
+  whatsappUrl,
+  name = 'Labi Joshua',
+  greetingName = 'Joshua',
+  photoUrl,
+  photoAlt = name,
+  services = ['Mobile App Design', 'Web App and SaaS Design', 'Website and Landing Page Design', 'Other'],
+} = Astro.props;
+---
+
+{whatsappUrl && (
+  <div id="wa-widget" data-whatsapp-url={whatsappUrl} data-greeting-name={greetingName} class="fixed bottom-6 right-6 z-[70]">
+    <!-- Floating toggle button -->
+    <button
+      id="wa-toggle"
+      aria-label="Open WhatsApp chat"
+      class="w-14 h-14 rounded-full bg-green-dark shadow-lg flex items-center justify-center hover:opacity-90 transition-opacity"
+    >
+      <svg id="wa-icon-chat" width="26" height="26" viewBox="0 0 32 32" fill="white">
+        <path d="M16.001 3C9.096 3 3.5 8.596 3.5 15.5c0 2.31.63 4.474 1.727 6.33L3.5 29l7.35-1.687A12.44 12.44 0 0 0 16 28c6.905 0 12.5-5.596 12.5-12.5S22.906 3 16.001 3zm0 22.75a10.2 10.2 0 0 1-5.219-1.436l-.375-.223-3.887.892 1-3.703-.245-.386A10.19 10.19 0 0 1 5.75 15.5c0-5.66 4.59-10.25 10.251-10.25 5.66 0 10.25 4.59 10.25 10.25 0 5.66-4.59 10.25-10.25 10.25zm5.633-7.677c-.309-.155-1.827-.902-2.11-1.005-.283-.103-.489-.155-.695.155-.206.31-.797 1.005-.977 1.211-.18.206-.36.232-.669.077-.309-.155-1.305-.481-2.485-1.533-.918-.819-1.538-1.831-1.718-2.14-.18-.31-.019-.477.136-.631.14-.139.309-.36.463-.541.155-.18.206-.31.309-.516.103-.206.052-.386-.026-.541-.077-.155-.695-1.677-.953-2.297-.251-.603-.506-.522-.695-.531l-.592-.01c-.206 0-.541.077-.824.386-.283.31-1.08 1.056-1.08 2.577s1.106 2.99 1.26 3.196c.155.206 2.177 3.325 5.276 4.662.737.318 1.312.508 1.76.65.739.235 1.412.202 1.944.122.593-.089 1.827-.747 2.085-1.468.258-.72.258-1.339.18-1.468-.077-.129-.283-.206-.592-.36z"/>
+      </svg>
+      <svg id="wa-icon-close" width="20" height="20" viewBox="0 0 14 14" fill="none" class="hidden">
+        <path d="M2 2l10 10M12 2L2 12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Chat panel -->
+    <div
+      id="wa-panel"
+      class="hidden absolute bottom-[68px] right-0 w-[min(400px,90vw)] rounded-3xl overflow-hidden shadow-2xl bg-white"
+    >
+      <!-- Header -->
+      <div class="bg-green-dark p-5 flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="relative shrink-0">
+            {photoUrl ? (
+              <img src={photoUrl} alt={photoAlt} class="w-11 h-11 rounded-full object-cover" />
+            ) : (
+              <div class="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white font-medium">
+                {name.charAt(0)}
+              </div>
+            )}
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green border-2 border-green-dark"></span>
+          </div>
+          <div>
+            <p class="text-white text-sm font-semibold leading-tight">{name}</p>
+            <p class="text-white/70 text-xs mt-0.5">Typically replies in minutes</p>
+          </div>
+        </div>
+        <button id="wa-close" aria-label="Close" class="text-white/80 hover:text-white transition-colors shrink-0">
+          <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+            <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-5 flex flex-col gap-4">
+        <div>
+          <p class="text-sm font-semibold text-neutral-900 mb-3">What service are you looking for?</p>
+          <div class="flex flex-wrap gap-2">
+            {services.map(service => (
+              <button
+                type="button"
+                data-service={service}
+                class="wa-pill text-sm text-neutral-700 bg-white rounded-full px-4 py-2 border border-neutral-200 hover:border-neutral-400 transition-colors"
+              >
+                {service}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div id="wa-budget-field" class="hidden">
+          <label for="wa-budget" class="text-sm font-semibold text-neutral-900 mb-3 block">What is your budget?</label>
+          <input
+            id="wa-budget"
+            type="text"
+            placeholder="e.g. $2,000 - $5,000"
+            class="w-full text-sm text-neutral-900 placeholder:text-neutral-400 rounded-xl border border-neutral-200 px-4 py-3 focus:outline-none focus:border-neutral-400 transition-colors"
+          />
+        </div>
+
+        <div id="wa-project-field" class="hidden">
+          <label for="wa-project" class="text-sm font-semibold text-neutral-900 mb-3 block">Tell me about your project <span class="font-normal text-neutral-400">(optional)</span></label>
+          <textarea
+            id="wa-project"
+            rows="3"
+            placeholder="Share a few details..."
+            class="w-full text-sm text-neutral-900 placeholder:text-neutral-400 rounded-xl border border-neutral-200 px-4 py-3 focus:outline-none focus:border-neutral-400 transition-colors resize-none"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Footer / send bar -->
+      <div class="px-5 pb-5">
+        <button
+          id="wa-send"
+          disabled
+          class="w-full flex items-center justify-center gap-2 rounded-full bg-neutral-200 text-neutral-400 text-sm font-medium py-3 transition-colors cursor-not-allowed"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M12.833 1.167 6.417 7.583M12.833 1.167 8.75 12.833l-2.333-5.25-5.25-2.333 11.666-4.083z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="wa-send-label">Select an option to continue</span>
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  const widget = document.getElementById('wa-widget');
+  if (widget) {
+    const toggle = document.getElementById('wa-toggle') as HTMLButtonElement;
+    const panel = document.getElementById('wa-panel') as HTMLDivElement;
+    const closeBtn = document.getElementById('wa-close') as HTMLButtonElement;
+    const iconChat = document.getElementById('wa-icon-chat') as unknown as SVGElement;
+    const iconClose = document.getElementById('wa-icon-close') as unknown as SVGElement;
+    const sendBtn = document.getElementById('wa-send') as HTMLButtonElement;
+    const sendLabel = document.getElementById('wa-send-label') as HTMLSpanElement;
+    const pills = Array.from(widget.querySelectorAll<HTMLButtonElement>('.wa-pill'));
+    const budgetField = document.getElementById('wa-budget-field') as HTMLDivElement;
+    const budgetInput = document.getElementById('wa-budget') as HTMLInputElement;
+    const projectField = document.getElementById('wa-project-field') as HTMLDivElement;
+    const projectInput = document.getElementById('wa-project') as HTMLTextAreaElement;
+
+    const baseUrl = widget.dataset.whatsappUrl || '';
+    const greetingName = widget.dataset.greetingName || '';
+    let selected: string | null = null;
+
+    function updateSendState() {
+      const ready = Boolean(selected) && budgetInput.value.trim().length > 0;
+      sendBtn.disabled = !ready;
+      sendBtn.classList.toggle('bg-neutral-900', ready);
+      sendBtn.classList.toggle('text-white', ready);
+      sendBtn.classList.toggle('cursor-pointer', ready);
+      sendBtn.classList.toggle('bg-neutral-200', !ready);
+      sendBtn.classList.toggle('text-neutral-400', !ready);
+      sendBtn.classList.toggle('cursor-not-allowed', !ready);
+
+      if (ready) {
+        sendLabel.textContent = 'Start a conversation';
+      } else if (selected) {
+        sendLabel.textContent = 'Enter your budget to continue';
+      } else {
+        sendLabel.textContent = 'Select an option to continue';
+      }
+    }
+
+    function openPanel() {
+      panel.classList.remove('hidden');
+      iconChat.classList.add('hidden');
+      iconClose.classList.remove('hidden');
+    }
+
+    function closePanel() {
+      panel.classList.add('hidden');
+      iconChat.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    }
+
+    toggle.addEventListener('click', () => {
+      panel.classList.contains('hidden') ? openPanel() : closePanel();
+    });
+    closeBtn.addEventListener('click', closePanel);
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        selected = pill.dataset.service || null;
+        pills.forEach(p => {
+          const isActive = p === pill;
+          p.classList.toggle('bg-neutral-900', isActive);
+          p.classList.toggle('text-white', isActive);
+          p.classList.toggle('border-neutral-900', isActive);
+          p.classList.toggle('bg-white', !isActive);
+          p.classList.toggle('text-neutral-700', !isActive);
+          p.classList.toggle('border-neutral-200', !isActive);
+        });
+        budgetField.classList.remove('hidden');
+        updateSendState();
+      });
+    });
+
+    budgetInput.addEventListener('input', () => {
+      if (budgetInput.value.trim().length > 0) {
+        projectField.classList.remove('hidden');
+      } else {
+        projectField.classList.add('hidden');
+      }
+      updateSendState();
+    });
+
+    sendBtn.addEventListener('click', () => {
+      if (!selected || !baseUrl || budgetInput.value.trim().length === 0) return;
+      const projectText = projectInput.value.trim().length > 0
+        ? projectInput.value.trim()
+        : "I'll share more details when we chat!";
+      const message = `Hi ${greetingName}! I'd like to chat with you about ${selected}. My budget is ${budgetInput.value.trim()}.\n\nHere is a bit about my project:\n${projectText}`;
+      const separator = baseUrl.includes('?') ? '&' : '?';
+      const url = `${baseUrl}${separator}text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!panel.classList.contains('hidden') && !widget.contains(e.target as Node)) {
+        closePanel();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
+        closePanel();
+      }
+    });
+  }
+</script>

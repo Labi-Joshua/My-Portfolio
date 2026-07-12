@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FooterCTA from '../components/FooterCTA.astro';
+import WhatsAppWidget from '../components/WhatsAppWidget.astro';
 import { getSiteSettings } from '../data/settings';
 
 interface Props {
@@ -126,6 +127,11 @@ const jsonLd = {
       twitterUrl={settings.twitterUrl}
       instagramUrl={settings.instagramUrl}
       linkedinUrl={settings.linkedinUrl}
+    />
+    <WhatsAppWidget
+      whatsappUrl={settings.whatsappUrl}
+      photoUrl="/whatsapp-avatar.jpg"
+      photoAlt="Joshua Owolabi"
     />
   </body>
 </html>
