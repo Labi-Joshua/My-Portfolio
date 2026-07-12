@@ -247,7 +247,7 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
       el.disabled = disabled;
       const base = 'width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;transition:opacity 0.15s;flex-shrink:0;';
       if (active) {
-        el.style.cssText = base + 'background:#51782B;color:#fff;';
+        el.style.cssText = base + 'background:#171717;color:#fff;';
       } else {
         el.style.cssText = base + 'background:#F0F0F0;color:#404040;';
         if (!disabled) el.onmouseenter = () => el.style.background = '#E0E0E0';
@@ -345,7 +345,7 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
       el.innerHTML = label;
       el.disabled = disabled;
       const base = 'width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;transition:opacity 0.15s;flex-shrink:0;';
-      el.style.cssText = base + (active ? 'background:#51782B;color:#fff;' : 'background:#F0F0F0;color:#404040;');
+      el.style.cssText = base + (active ? 'background:#171717;color:#fff;' : 'background:#F0F0F0;color:#404040;');
       if (!active && !disabled) el.onmouseenter = () => el.style.background = '#E0E0E0';
       el.onmouseleave = () => { if (!active) el.style.background = '#F0F0F0'; };
       if (disabled) el.style.opacity = '0.35';
