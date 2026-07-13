@@ -11,6 +11,9 @@ const project = caseStudies.find(p => p.slug === slug);
 if (!project) return Astro.redirect('/404');
 
 const projectTitle = project.title.replace('\n', ' ');
+const emailSubject = encodeURIComponent('Interested in working together');
+const emailBody = encodeURIComponent(`Hi Joshua, I saw your ${projectTitle} case study and I'd like to talk about a project.`);
+const emailHref = `mailto:jospecial34@gmail.com?subject=${emailSubject}&body=${emailBody}`;
 const projectDescription = project.description;
 
 const projectIndex = caseStudies.findIndex(p => p.slug === project.slug) + 1;
@@ -282,19 +285,16 @@ const creativeWorkJsonLd = {
             class="inline-flex items-center gap-2 bg-neutral-900 text-white text-sm font-medium rounded-full px-6 py-3.5 hover:opacity-90 transition-opacity whitespace-nowrap"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
-              <rect x="3" y="4" width="18" height="18" rx="2"/>
-              <path d="M16 2v4M8 2v4M3 10h18"/>
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
-            Book a free call
+            Let's have a chat
           </a>
-          {settings.contactUrl && (
-            <a
-              href={settings.contactUrl}
-              class="text-sm text-neutral-500 hover:text-neutral-900 underline transition-colors whitespace-nowrap"
-            >
-              or email me
-            </a>
-          )}
+          <a
+            href={emailHref}
+            class="text-sm text-neutral-500 hover:text-neutral-900 underline transition-colors whitespace-nowrap"
+          >
+            or email me
+          </a>
         </div>
       </div>
     )}
