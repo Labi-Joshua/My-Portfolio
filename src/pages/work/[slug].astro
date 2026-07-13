@@ -142,7 +142,7 @@ const creativeWorkJsonLd = {
         {project.quickStats.map(stat => (
           <div class="rounded-2xl bg-card p-6 md:flex-1 md:min-w-0">
             <p class="text-xs text-neutral-400 uppercase tracking-widest mb-2">{stat.label}</p>
-            <p class="text-sm font-semibold text-neutral-900">{stat.value}</p>
+            <p class="font-serif text-xl text-neutral-900">{stat.value}</p>
           </div>
         ))}
       </div>
@@ -151,8 +151,8 @@ const creativeWorkJsonLd = {
     <!-- The Challenge -->
     {project.challenge?.body && (
       <div class="rounded-3xl bg-card p-8 flex flex-col gap-5">
-        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900">
-          <span class="w-2 h-2 rounded-sm bg-orange-500 shrink-0"></span>
+        <h3 class="flex items-center gap-2 text-[13px] font-medium text-green-dark">
+          <span class="w-2 h-2 rounded-sm bg-green-dark shrink-0"></span>
           The Challenge
         </h3>
         <p class="text-neutral-900 leading-relaxed text-base">{project.challenge.body}</p>
@@ -174,8 +174,8 @@ const creativeWorkJsonLd = {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {project.roleTags?.length > 0 && (
           <div class="rounded-2xl bg-card p-6">
-            <h4 class="flex items-center gap-2 text-sm font-medium text-neutral-900 mb-4">
-              <span class="w-2 h-2 rounded-sm bg-green shrink-0"></span>
+            <h4 class="flex items-center gap-2 text-[13px] font-medium text-green-dark mb-4">
+              <span class="w-2 h-2 rounded-sm bg-green-dark shrink-0"></span>
               My Role
             </h4>
             <div class="flex flex-wrap gap-3">
@@ -187,15 +187,15 @@ const creativeWorkJsonLd = {
         )}
         {project.workedOn?.length > 0 && (
           <div class="rounded-2xl bg-card p-6">
-            <h4 class="flex items-center gap-2 text-sm font-medium text-neutral-900 mb-4">
-              <span class="w-2 h-2 rounded-sm bg-blue-500 shrink-0"></span>
+            <h4 class="flex items-center gap-2 text-[13px] font-medium text-green-dark mb-4">
+              <span class="w-2 h-2 rounded-sm bg-green-dark shrink-0"></span>
               What I Worked On
             </h4>
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-3">
               {project.workedOn.map(item => (
-                <div class="flex items-start gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-green shrink-0 mt-2"></span>
-                  <span class="text-sm text-neutral-600 leading-relaxed">{item}</span>
+                <div class="flex items-start gap-3">
+                  <span class="w-1.5 h-1.5 rounded-full bg-neutral-300 shrink-0 mt-2.5"></span>
+                  <span class="text-base text-neutral-600 leading-relaxed">{item}</span>
                 </div>
               ))}
             </div>
@@ -232,8 +232,8 @@ const creativeWorkJsonLd = {
     <!-- The Solution -->
     {project.solution && (
       <div class="rounded-3xl bg-card p-8 flex flex-col gap-5">
-        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900">
-          <span class="w-2 h-2 rounded-sm bg-green shrink-0"></span>
+        <h3 class="flex items-center gap-2 text-[13px] font-medium text-green-dark">
+          <span class="w-2 h-2 rounded-sm bg-green-dark shrink-0"></span>
           The Solution
         </h3>
         <p class="text-neutral-900 leading-relaxed text-base">{project.solution}</p>
