@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getAboutPage } from '../data/about';
+import { optimizeImage } from '../lib/image';
 
 const about = await getAboutPage();
 
@@ -74,10 +75,11 @@ const phone = about.phone || '+234 816 9203 595';
     <section class="intro-section mb-16">
       <div class="intro-photo">
         <img
-          src={profilePhoto}
+          src={optimizeImage(profilePhoto, 500)}
           alt={profilePhotoAlt}
           class="w-full h-full object-cover object-top"
           loading="eager"
+          decoding="async"
         />
       </div>
       <div class="intro-bio flex flex-col justify-center gap-4">
@@ -117,19 +119,19 @@ const phone = about.phone || '+234 816 9203 595';
 
       <div class="gallery-grid">
         <div class="gallery-large bg-neutral-200">
-          <img src={galleryImages[0]?.src} alt={galleryImages[0]?.alt} class="w-full h-full object-cover" loading="lazy" />
+          <img src={optimizeImage(galleryImages[0]?.src, 600)} alt={galleryImages[0]?.alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
         <div class="gallery-mid bg-neutral-300">
-          <img src={galleryImages[1]?.src} alt={galleryImages[1]?.alt} class="w-full h-full object-cover" loading="lazy" />
+          <img src={optimizeImage(galleryImages[1]?.src, 400)} alt={galleryImages[1]?.alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
         {galleryImages[2] && (
           <div class="gallery-sm bg-neutral-200">
-            <img src={galleryImages[2].src} alt={galleryImages[2].alt} class="w-full h-full object-cover" loading="lazy" />
+            <img src={optimizeImage(galleryImages[2].src, 300)} alt={galleryImages[2].alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
           </div>
         )}
         {galleryImages[3] && (
           <div class="gallery-sm bg-neutral-300">
-            <img src={galleryImages[3].src} alt={galleryImages[3].alt} class="w-full h-full object-cover" loading="lazy" />
+            <img src={optimizeImage(galleryImages[3].src, 300)} alt={galleryImages[3].alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
           </div>
         )}
       </div>
@@ -145,7 +147,7 @@ const phone = about.phone || '+234 816 9203 595';
         <div class="outside-thumbnails">
           {outsideThumbnails.map((thumb, i) => (
             <div class={`outside-thumb ${i === 0 ? 'bg-blue-700' : 'bg-red-500'}`}>
-              <img src={thumb.src} alt={thumb.alt} class="w-full h-full object-cover" loading="lazy" />
+              <img src={optimizeImage(thumb.src, 350)} alt={thumb.alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
             </div>
           ))}
         </div>

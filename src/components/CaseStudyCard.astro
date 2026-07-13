@@ -1,4 +1,6 @@
 ---
+import { optimizeImage } from '../lib/image';
+
 interface Props {
   slug: string;
   title: string;
@@ -11,7 +13,10 @@ interface Props {
 const { slug, title, description, coverImage, coverAlt, index } = Astro.props;
 
 const isGif = /\.gif(\?|$)/i.test(coverImage);
-const staticFrame = isGif ? `${coverImage}${coverImage.includes('?') ? '&' : '?'}fm=jpg` : coverImage;
+const animatedSrc = optimizeImage(coverImage, 700, { autoFormat: false });
+const staticFrame = isGif
+  ? `${coverImage}${coverImage.includes('?') ? '&' : '?'}fm=jpg&w=700&q=75`
+  : optimizeImage(coverImage, 700);
 ---
 
 <a
@@ -33,10 +38,11 @@ const staticFrame = isGif ? `${coverImage}${coverImage.includes('?') ? '&' : '?'
   <!-- Image: mobile only (bottom, ExperimentCard style) — gif animates by default on mobile -->
   <div class="md:hidden mx-3 mb-3 mt-4 rounded-2xl overflow-hidden h-[214px] relative">
     <img
-      src={coverImage}
+      src={animatedSrc}
       alt={coverAlt}
       class="w-full h-full object-cover object-top"
       loading={index === 0 ? 'eager' : 'lazy'}
+      decoding="async"
     />
   </div>
 
@@ -44,10 +50,11 @@ const staticFrame = isGif ? `${coverImage}${coverImage.includes('?') ? '&' : '?'
   <div class="hidden md:block shrink-0 self-start" style="width: 50%; padding: 12px 12px 12px 0;">
     <div class="relative" style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 16px;">
       <img
-        src={coverImage}
+        src={animatedSrc}
         alt={coverAlt}
         class="w-full h-full object-cover object-top"
         loading={index === 0 ? 'eager' : 'lazy'}
+        decoding="async"
       />
       {isGif && (
         <img

@@ -1,4 +1,6 @@
 ---
+import { optimizeImage } from '../lib/image';
+
 interface Props {
   category: string;
   title: string;
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const { category, title, description, image, imageAlt, link } = Astro.props;
+const optimizedImage = optimizeImage(image, 500);
 ---
 
 <div class="rounded-3xl overflow-hidden flex flex-col group card-hover h-full">
@@ -28,18 +31,20 @@ const { category, title, description, image, imageAlt, link } = Astro.props;
     {link ? (
       <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Open ${title}`}>
         <img
-          src={image}
+          src={optimizedImage}
           alt={imageAlt}
           class="w-full h-full object-cover" style="object-position: bottom;"
           loading="lazy"
+          decoding="async"
         />
       </a>
     ) : (
       <img
-        src={image}
+        src={optimizedImage}
         alt={imageAlt}
         class="w-full h-full object-cover" style="object-position: bottom;"
         loading="lazy"
+        decoding="async"
       />
     )}
   </div>

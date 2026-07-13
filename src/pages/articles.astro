@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getArticles, getTinyThoughts, formatArticleDate } from '../data/articles';
+import { optimizeImage } from '../lib/image';
 
 const [articles, tinyThoughts] = await Promise.all([getArticles(), getTinyThoughts()]);
 const categories = ['Design Systems', 'Craft', 'Accessibility', 'People & Process'];
@@ -12,7 +13,7 @@ categories.forEach(cat => {
 const featured = articles.find(a => a.featured) ?? articles[0];
 
 // Pre-format dates for the client-side filter script
-const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.date) }));
+const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.date), image: optimizeImage(a.image, 600) }));
 ---
 
 <Layout title="Articles — Joshua Owolabi" description="Thoughts on design systems, craft, accessibility, and the design process.">
@@ -93,10 +94,11 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
         <div class="md:hidden mx-3 mb-3 mt-0 rounded-2xl overflow-hidden h-[214px] md:order-1">
           <img
             id="featured-img-mobile"
-            src={featured.image}
+            src={optimizeImage(featured.image, 600)}
             alt={featured.imageAlt}
             class="w-full h-full object-cover object-center"
             loading="eager"
+            decoding="async"
           />
         </div>
 
@@ -105,10 +107,11 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
           <div style="width: 530px; height: 380px; overflow: hidden; border-radius: 16px;">
             <img
               id="featured-img"
-              src={featured.image}
+              src={optimizeImage(featured.image, 600)}
               alt={featured.imageAlt}
               class="w-full h-full object-cover object-center"
               loading="eager"
+              decoding="async"
             />
           </div>
         </div>
@@ -142,10 +145,11 @@ const articlesForScript = articles.map(a => ({ ...a, date: formatArticleDate(a.d
             <!-- Thumbnail -->
             <div class="w-[80px] h-[96px] md:w-[86px] md:h-[64px] rounded-xl overflow-hidden shrink-0 bg-neutral-200">
               <img
-                src={article.image}
+                src={optimizeImage(article.image, 200)}
                 alt={article.imageAlt}
                 class="w-full h-full object-cover"
                 loading="lazy"
+                decoding="async"
               />
             </div>
 
