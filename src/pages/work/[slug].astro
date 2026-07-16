@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import CaseStudyCard from '../../components/CaseStudyCard.astro';
 import { getCaseStudies } from '../../data/projects';
 import { getSiteSettings } from '../../data/settings';
 import { optimizeImage } from '../../lib/image';
@@ -303,25 +304,14 @@ const creativeWorkJsonLd = {
     {otherCaseStudy && (
       <div class="flex flex-col gap-6">
         <p class="text-center text-sm text-neutral-400">Continue exploring my portfolio</p>
-        <a href={`/work/${otherCaseStudy.slug}`} class="rounded-3xl overflow-hidden flex flex-col md:flex-row bg-card group">
-          <div class="md:w-1/2 shrink-0 bg-neutral-100 overflow-hidden" style="aspect-ratio: 4 / 3;">
-            <img src={optimizeImage(otherCaseStudy.coverImage, 600)} alt={otherCaseStudy.coverAlt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
-          </div>
-          <div class="p-8 md:p-10 flex flex-col justify-center gap-3">
-            <div class="flex items-center gap-2 text-xs text-neutral-400 uppercase tracking-widest">
-              {otherCaseStudy.category && <span>{otherCaseStudy.category}</span>}
-              {otherCaseStudy.category && otherCaseStudy.year && <span class="w-1 h-1 rounded-full bg-neutral-300"></span>}
-              {otherCaseStudy.year && <span>{otherCaseStudy.year}</span>}
-            </div>
-            <h3 class="font-serif text-2xl text-neutral-900 leading-snug">{otherCaseStudy.title}</h3>
-            <span class="text-sm text-green font-medium group-hover:gap-2.5 flex items-center gap-1.5 transition-all">
-              Read the case study
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </div>
-        </a>
+        <CaseStudyCard
+          slug={otherCaseStudy.slug}
+          title={otherCaseStudy.title}
+          description={otherCaseStudy.description}
+          coverImage={otherCaseStudy.coverImage}
+          coverAlt={otherCaseStudy.coverAlt}
+          index={1}
+        />
       </div>
     )}
 
