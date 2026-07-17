@@ -43,7 +43,7 @@ export interface Experiment {
 
 export async function getCaseStudies(): Promise<CaseStudy[]> {
   return sanityClient.fetch(`
-    *[_type == "caseStudy"] | order(_createdAt asc) {
+    *[_type == "caseStudy"] | order(_createdAt desc) {
       "slug": slug.current,
       title,
       description,
