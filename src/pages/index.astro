@@ -7,8 +7,6 @@ import { getCaseStudies, getExperiments } from '../data/projects';
 import { getSiteSettings } from '../data/settings';
 
 const [caseStudies, experiments, settings] = await Promise.all([getCaseStudies(), getExperiments(), getSiteSettings()]);
-const years = caseStudies.map(p => parseInt(p.year)).filter(Boolean);
-const yearRange = years.length ? `${Math.min(...years)} — ${new Date().getFullYear() + 1}` : '';
 ---
 
 <Layout
@@ -36,7 +34,7 @@ const yearRange = years.length ? `${Math.min(...years)} — ${new Date().getFull
           Selected Works
         </div>
         <span class="text-sm text-neutral-400">
-          {caseStudies.length} case {caseStudies.length === 1 ? 'study' : 'studies'} · {yearRange}
+          {caseStudies.length} case {caseStudies.length === 1 ? 'study' : 'studies'}
         </span>
       </div>
 
