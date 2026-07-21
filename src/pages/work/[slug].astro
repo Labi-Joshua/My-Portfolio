@@ -78,9 +78,23 @@ const creativeWorkJsonLd = {
       <h1 class="font-serif text-3xl md:text-4xl font-normal leading-snug text-neutral-900 whitespace-pre-line mt-6">{project.title}</h1>
       {projectDescription && <p class="text-neutral-500 leading-relaxed mt-3 max-w-2xl">{projectDescription}</p>}
 
-      {(project.websiteUrl || project.appStoreUrl) && (
-        <div class="flex items-center gap-3 mt-6">
-          {project.websiteUrl && (
+      {(project.links?.length || project.websiteUrl || project.appStoreUrl) && (
+        <div class="flex items-center gap-3 mt-6 flex-wrap">
+          {project.links?.map((link) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white px-5 py-3.5 text-sm font-medium"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="shrink-0">
+                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M1.5 7h11M7 1.5c1.4 1.5 2.2 3.5 2.2 5.5S8.4 12.5 7 14c-1.4-1.5-2.2-3.5-2.2-5.5S5.6 3 7 1.5z" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
+              {link.label}
+            </a>
+          ))}
+          {!project.links?.length && project.websiteUrl && (
             <a
               href={project.websiteUrl}
               target="_blank"
@@ -94,7 +108,7 @@ const creativeWorkJsonLd = {
               Visit Website
             </a>
           )}
-          {project.appStoreUrl && (
+          {!project.links?.length && project.appStoreUrl && (
             <a
               href={project.appStoreUrl}
               target="_blank"

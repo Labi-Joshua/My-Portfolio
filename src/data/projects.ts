@@ -30,6 +30,7 @@ export interface CaseStudy {
   };
   websiteUrl?: string;
   appStoreUrl?: string;
+  links?: { label: string; url: string }[];
 }
 
 export interface Experiment {
@@ -71,7 +72,8 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
       solution,
       outcome,
       websiteUrl,
-      appStoreUrl
+      appStoreUrl,
+      links
     }
   `)
 }
