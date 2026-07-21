@@ -140,7 +140,8 @@ const {
     let selected: string | null = null;
 
     function updateSendState() {
-      const ready = Boolean(selected) && budgetInput.value.trim().length > 0;
+      const isOther = selected === 'Other';
+      const ready = Boolean(selected) && (isOther || budgetInput.value.trim().length > 0);
       sendBtn.disabled = !ready;
       sendBtn.classList.toggle('bg-neutral-900', ready);
       sendBtn.classList.toggle('text-white', ready);
@@ -150,7 +151,7 @@ const {
       sendBtn.classList.toggle('cursor-not-allowed', !ready);
 
       if (ready) {
-        sendLabel.textContent = 'Start a conversation';
+        sendLabel.textContent = isOther ? "Let's have a conversation" : 'Start a conversation';
       } else if (selected) {
         sendLabel.textContent = 'Enter your budget to continue';
       } else {
@@ -187,7 +188,13 @@ const {
           p.classList.toggle('text-neutral-700', !isActive);
           p.classList.toggle('border-neutral-200', !isActive);
         });
-        budgetField.classList.remove('hidden');
+        if (selected === 'Other') {
+          budgetField.classList.add('hidden');
+          projectField.classList.remove('hidden');
+        } else {
+          budgetField.classList.remove('hidden');
+          projectField.classList.toggle('hidden', budgetInput.value.trim().length === 0);
+        }
         updateSendState();
       });
     });
@@ -202,11 +209,14 @@ const {
     });
 
     sendBtn.addEventListener('click', () => {
-      if (!selected || !baseUrl || budgetInput.value.trim().length === 0) return;
+      const isOther = selected === 'Other';
+      if (!selected || !baseUrl || (!isOther && budgetInput.value.trim().length === 0)) return;
       const projectText = projectInput.value.trim().length > 0
         ? projectInput.value.trim()
         : "I'll share more details when we chat!";
-      const message = `Hi ${greetingName}! I'd like to chat with you about ${selected}. My budget is ${budgetInput.value.trim()}.\n\nHere is a bit about my project:\n${projectText}`;
+      const message = isOther
+        ? `Hi ${greetingName}! I'd like to chat with you about ${selected}.\n\nHere is a bit about my project:\n${projectText}`
+        : `Hi ${greetingName}! I'd like to chat with you about ${selected}. My budget is ${budgetInput.value.trim()}.\n\nHere is a bit about my project:\n${projectText}`;
       const separator = baseUrl.includes('?') ? '&' : '?';
       const url = `${baseUrl}${separator}text=${encodeURIComponent(message)}`;
       window.open(url, '_blank', 'noopener,noreferrer');
